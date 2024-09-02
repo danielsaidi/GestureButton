@@ -9,17 +9,17 @@
 import Foundation
 
 /// This struct is used to configure gesture button defaults.
-public struct GestureButtonDefaults {
+struct GestureButtonDefaults {
 
     /// The time it takes for a press to count as accidentally cancelled by the system, by default `3`.
-    public static var cancelDelay = 3.0
+    static var cancelDelay = 3.0
 
     /// The max time between two taps for them to count as a double tap, by default `0.2`.
-    public static var doubleTapTimeout = 0.2
+    static var doubleTapTimeout = 0.2
     
     /// The time it takes for a press to count as a long press, by default `0.5`.
-    public static var longPressDelay = 0.5
+    static var longPressDelay = 0.5
     
     /// The time it takes for a press to count as a repeat trigger, by default `0.5`.
-    public static var repeatDelay = 0.5
+    static var repeatDelay = 0.5
 }

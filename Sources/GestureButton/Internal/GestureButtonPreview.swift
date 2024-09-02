@@ -40,8 +40,12 @@ struct GestureButtonPreview {
         
         var isPressed: Bool
         
+        var color: Color {
+            isPressed ? .green : .red
+        }
+        
         var body: some View {
-            Color.random()
+            color
                 .clipShape(.rect(cornerRadius: 10))
                 .opacity(isPressed ? 0.5 : 1)
                 .scaleEffect(isPressed ? 0.9 : 1)

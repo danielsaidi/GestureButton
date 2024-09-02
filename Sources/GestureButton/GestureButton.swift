@@ -23,14 +23,14 @@ public struct GestureButton<Label: View>: View {
     ///   - isInScrollView: Whether this button is in a scroll view, by default `false`.
     ///   - isPressed: A custom, optional binding to track pressed state, by default `nil`.
     ///   - pressAction: The action to trigger when the button is pressed, by default `nil`.
-    ///   - cancelDelay: The time it takes for a cancelled press to cancel itself.
+    ///   - cancelDelay: The time it takes for a cancelled press to cancel itself, by default `3.0` seconds.
     ///   - releaseInsideAction: The action to trigger when the button is released inside, by default `nil`.
     ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, by default `nil`.
-    ///   - longPressDelay: The time it takes for a press to count as a long press.
+    ///   - longPressDelay: The time it takes for a press to count as a long press, by default `0.5` seconds.
     ///   - longPressAction: The action to trigger when the button is long pressed, by default `nil`.
-    ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap.
+    ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap, by default `0.2` seconds.
     ///   - doubleTapAction: The action to trigger when the button is double tapped, by default `nil`.
-    ///   - repeatDelay: The time it takes for a press to count as a repeat trigger.
+    ///   - repeatDelay: The time it takes for a press to count as a repeat trigger, by default `0.5` seconds.
     ///   - repeatTimer: The repeat timer to use for the repeat action.
     ///   - repeatAction: The action to repeat while the button is being pressed, by default `nil`.
     ///   - dragStartAction: The action to trigger when a drag gesture starts.
@@ -42,14 +42,14 @@ public struct GestureButton<Label: View>: View {
         isInScrollView: Bool = false,
         isPressed: Binding<Bool>? = nil,
         pressAction: Action? = nil,
-        cancelDelay: TimeInterval = GestureButtonDefaults.cancelDelay,
+        cancelDelay: TimeInterval? = nil,
         releaseInsideAction: Action? = nil,
         releaseOutsideAction: Action? = nil,
-        longPressDelay: TimeInterval = GestureButtonDefaults.longPressDelay,
+        longPressDelay: TimeInterval? = nil,
         longPressAction: Action? = nil,
-        doubleTapTimeout: TimeInterval = GestureButtonDefaults.doubleTapTimeout,
+        doubleTapTimeout: TimeInterval? = nil,
         doubleTapAction: Action? = nil,
-        repeatDelay: TimeInterval = GestureButtonDefaults.repeatDelay,
+        repeatDelay: TimeInterval? = nil,
         repeatAction: Action? = nil,
         dragStartAction: DragAction? = nil,
         dragAction: DragAction? = nil,
@@ -60,14 +60,14 @@ public struct GestureButton<Label: View>: View {
         self._state = .init(wrappedValue: .init(
             isPressed: isPressed ?? .constant(false),
             pressAction: pressAction,
-            cancelDelay: cancelDelay,
+            cancelDelay: cancelDelay ?? GestureButtonDefaults.cancelDelay,
             releaseInsideAction: releaseInsideAction,
             releaseOutsideAction: releaseOutsideAction,
-            longPressDelay: longPressDelay,
+            longPressDelay: longPressDelay ?? GestureButtonDefaults.longPressDelay,
             longPressAction: longPressAction,
-            doubleTapTimeout: doubleTapTimeout,
+            doubleTapTimeout: doubleTapTimeout ?? GestureButtonDefaults.doubleTapTimeout,
             doubleTapAction: doubleTapAction,
-            repeatDelay: repeatDelay,
+            repeatDelay: repeatDelay ?? GestureButtonDefaults.repeatDelay,
             repeatAction: repeatAction,
             dragStartAction: dragStartAction,
             dragAction: dragAction,

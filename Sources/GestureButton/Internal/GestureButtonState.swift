@@ -31,7 +31,7 @@ class GestureButtonState: ObservableObject {
     ///   - dragAction: The action to trigger when a drag gesture changes.
     ///   - dragEndAction: The action to trigger when a drag gesture ends.
     ///   - endAction: The action to trigger when a button gesture ends, by default `nil`.
-    public init(
+    init(
         isPressed: Binding<Bool>? = nil,
         pressAction: Action? = nil,
         cancelDelay: TimeInterval = GestureButtonDefaults.cancelDelay,

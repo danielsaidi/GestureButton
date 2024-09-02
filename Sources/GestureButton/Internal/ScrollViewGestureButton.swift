@@ -105,7 +105,8 @@ struct ScrollViewGestureButton<Label: View>: View {
             Style(
                 isPressed: $isPressed,
                 isPressedByGesture: $isPressedByGesture,
-                config: config)
+                config: config
+            )
         )
         .onChange(of: isPressed) { newValue in
             isPressedBinding.wrappedValue = newValue
@@ -145,7 +146,7 @@ extension ScrollViewGestureButton {
         func tryStartRepeatTimer() {
             if repeatTimer.isActive { return }
             guard let action = repeatAction else { return }
-            repeatTimer.start(action: action)
+            repeatTimer.start { action() }
         }
 
         func tryStopRepeatTimer() {
@@ -322,7 +323,7 @@ private extension View {
                 .scaleEffect(isPressed ? 0.9 : 1)
                 .animation(.default, value: isPressed)
                 .padding()
-                .background(Color.random())
+                .background(color.opacity(0.1))
                 .cornerRadius(16)
         }
     }
