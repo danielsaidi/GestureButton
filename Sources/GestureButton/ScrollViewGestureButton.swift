@@ -271,17 +271,6 @@ private extension View {
     }
 }
 
-private extension GeometryProxy {
-
-    func contains(_ dragEndLocation: CGPoint) -> Bool {
-        let x = dragEndLocation.x
-        let y = dragEndLocation.y
-        guard x > 0, y > 0 else { return false }
-        guard x < size.width, y < size.height else { return false }
-        return true
-    }
-}
-
 #Preview {
     
     struct Preview: View {

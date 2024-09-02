@@ -101,8 +101,8 @@ private extension GestureButton {
                     DragGesture(minimumDistance: 0)
                         .onChanged { value in
                             state.lastGestureValue = value
-                            tryHandlePress(value)
-                            state.dragAction?(value)
+                            state.tryHandlePress(value)
+                            state.tryHandleDrag(value)
                         }
                         .onEnded { value in
                             tryHandleRelease(value, in: geo)
@@ -114,25 +114,13 @@ private extension GestureButton {
 
 private extension GestureButton {
     
-    /// A press should trigger some actions and set up a few
-    /// delays for other things to be handled.
-    func tryHandlePress(_ value: DragGesture.Value) {
-        if state.isPressed { return }
-        state.isPressed = true
-        state.pressAction?()
-        state.dragStartAction?(value)
-        state.tryTriggerCancelAfterDelay()
-        state.tryTriggerLongPressAfterDelay()
-        state.tryTriggerRepeatAfterDelay()
-    }
-    
     /// A release should always reset the pressed state, but
     /// should only proceed if the button is pressed.
     func tryHandleRelease(_ value: DragGesture.Value, in geo: GeometryProxy) {
         let isPressed = state.isPressed
         state.reset()
         if !isPressed { return }
-        state.releaseDate = tryTriggerDoubleTap() ? .distantPast : Date()
+        state.releaseDate = state.tryTriggerDoubleTap() ? .distantPast : Date()
         state.dragEndAction?(value)
         if geo.contains(value.location) {
             state.releaseInsideAction?()
@@ -140,26 +128,6 @@ private extension GestureButton {
             state.releaseOutsideAction?()
         }
         state.endAction?()
-    }
-    
-    
-    
-    func tryTriggerDoubleTap() -> Bool {
-        let interval = Date().timeIntervalSince(state.releaseDate)
-        let isDoubleTap = interval < state.doubleTapTimeout
-        if isDoubleTap { state.doubleTapAction?() }
-        return isDoubleTap
-    }
-}
-
-private extension GeometryProxy {
-    
-    func contains(_ dragEndLocation: CGPoint) -> Bool {
-        let x = dragEndLocation.x
-        let y = dragEndLocation.y
-        guard x > 0, y > 0 else { return false }
-        guard x < size.width, y < size.height else { return false }
-        return true
     }
 }
 

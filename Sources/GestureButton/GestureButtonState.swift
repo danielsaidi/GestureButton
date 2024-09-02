@@ -104,6 +104,23 @@ extension GestureButtonState {
         repeatTimer.stop()
     }
     
+    /// Try to handle any new drag gestures as a press event.
+    func tryHandleDrag(_ value: DragGesture.Value) {
+        guard isPressed else { return }
+        dragAction?(value)
+    }
+    
+    /// Try to handle any new drag gestures as a press event.
+    func tryHandlePress(_ value: DragGesture.Value) {
+        if isPressed { return }
+        isPressed = true
+        pressAction?()
+        dragStartAction?(value)
+        tryTriggerCancelAfterDelay()
+        tryTriggerLongPressAfterDelay()
+        tryTriggerRepeatAfterDelay()
+    }
+    
     /// This function tries to fix an iOS bug, where buttons
     /// may not always receive a gesture end event. This can
     /// for instance happen when the button is near a scroll
@@ -122,6 +139,16 @@ extension GestureButtonState {
             self.reset()
             self.endAction?()
         }
+    }
+    
+    /// This function tries to trigger the double tap action
+    /// if the current date is within the double tap timeout
+    /// since the last release.
+    func tryTriggerDoubleTap() -> Bool {
+        let interval = Date().timeIntervalSince(releaseDate)
+        let isDoubleTap = interval < doubleTapTimeout
+        if isDoubleTap { doubleTapAction?() }
+        return isDoubleTap
     }
     
     /// This function tries to trigger the long press action
@@ -150,5 +177,16 @@ extension GestureButtonState {
             guard self.repeatDate == date else { return }
             self.repeatTimer.start { action() }
         }
+    }
+}
+
+extension GeometryProxy {
+    
+    func contains(_ dragEndLocation: CGPoint) -> Bool {
+        let x = dragEndLocation.x
+        let y = dragEndLocation.y
+        guard x > 0, y > 0 else { return false }
+        guard x < size.width, y < size.height else { return false }
+        return true
     }
 }
