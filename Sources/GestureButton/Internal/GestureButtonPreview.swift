@@ -81,7 +81,11 @@ struct GestureButtonPreview {
             label(title, "\(point.x.rounded()), \(point.y.rounded())")
         }
         
-        func label(_ title: String, _ value: Any) -> some View {
+        func label(_ title: String, _ value: Int) -> some View {
+            label(title, "\(value)")
+        }
+        
+        func label(_ title: String, _ value: String) -> some View {
             HStack {
                 Text("\(title):")
                 Text("\(value)").bold()
