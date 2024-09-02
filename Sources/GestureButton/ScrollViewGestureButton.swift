@@ -24,25 +24,27 @@ public struct ScrollViewGestureButton<Label: View>: View {
     /// Create a gesture button.
     ///
     /// - Parameters:
-    ///   - isPressed: The binding used to track pressed state, if any.
-    ///   - pressAction: An action to trigger when the button is pressed, if any.
-    ///   - releaseInsideAction: An action to trigger when the button is released inside, if any.
-    ///   - releaseOutsideAction: An action to trigger when the button is released outside, if any.
-    ///   - longPressDelay: The time it takes for a press to count as a long press, by default ``GestureButtonDefaults/longPressDelay``.
-    ///   - longPressAction: An action to trigger when the button is long pressed, if any.
-    ///   - doubleTapTimeout: The max time between two taps to count as a double tap, by default ``GestureButtonDefaults/doubleTapTimeout``.
-    ///   - doubleTapAction: An action to trigger when the button is double tapped, if any.
-    ///   - repeatDelay: The time it takes for a press to count as a repeat trigger, by default ``GestureButtonDefaults/repeatDelay``.
-    ///   - repeatTimer: The repeat timer to use for the repeat action, by default a new instance.
-    ///   - repeatAction: An action to repeat while the button is being pressed, if any.
-    ///   - dragStartAction: An action to trigger when a drag gesture starts.
-    ///   - dragAction: An action to trigger when a drag gesture changes.
-    ///   - dragEndAction: An action to trigger when a drag gesture ends.
-    ///   - endAction: An action to trigger when a button gesture ends, if any.
+    ///   - isPressed: A custom, optional binding to track pressed state, by default `nil`.
+    ///   - pressAction: The action to trigger when the button is pressed, by default `nil`.
+    ///   - cancelDelay: The time it takes for a cancelled press to cancel itself.
+    ///   - releaseInsideAction: The action to trigger when the button is released inside, by default `nil`.
+    ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, by default `nil`.
+    ///   - longPressDelay: The time it takes for a press to count as a long press.
+    ///   - longPressAction: The action to trigger when the button is long pressed, by default `nil`.
+    ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap.
+    ///   - doubleTapAction: The action to trigger when the button is double tapped, by default `nil`.
+    ///   - repeatDelay: The time it takes for a press to count as a repeat trigger.
+    ///   - repeatTimer: The repeat timer to use for the repeat action.
+    ///   - repeatAction: The action to repeat while the button is being pressed, by default `nil`.
+    ///   - dragStartAction: The action to trigger when a drag gesture starts.
+    ///   - dragAction: The action to trigger when a drag gesture changes.
+    ///   - dragEndAction: The action to trigger when a drag gesture ends.
+    ///   - endAction: The action to trigger when a button gesture ends, by default `nil`.
     ///   - label: The button label.
     public init(
         isPressed: Binding<Bool>? = nil,
         pressAction: Action? = nil,
+        cancelDelay: TimeInterval = GestureButtonDefaults.cancelDelay,
         releaseInsideAction: Action? = nil,
         releaseOutsideAction: Action? = nil,
         longPressDelay: TimeInterval = GestureButtonDefaults.longPressDelay,

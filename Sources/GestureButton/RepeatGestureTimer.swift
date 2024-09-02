@@ -8,7 +8,8 @@
 
 import Foundation
 
-/// This class can handle repeating actions on a gesture.
+/// This internal class can be used to repeat an action when
+/// a button is kept pressed.
 class RepeatGestureTimer: ObservableObject {
 
     init(
@@ -34,7 +35,7 @@ extension RepeatGestureTimer {
         return Date().timeIntervalSince(date)
     }
 
-    /// Whether or not the timer is active.
+    /// Whether the timer is active.
     var isActive: Bool { timer != nil }
 
     /// Start the repeat gesture timer with a certain action.
