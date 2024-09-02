@@ -122,8 +122,8 @@ private extension GestureButton {
         state.pressAction?()
         state.dragStartAction?(value)
         state.tryTriggerCancelAfterDelay()
-        tryTriggerLongPressAfterDelay()
-        tryTriggerRepeatAfterDelay()
+        state.tryTriggerLongPressAfterDelay()
+        state.tryTriggerRepeatAfterDelay()
     }
     
     /// A release should always reset the pressed state, but
@@ -132,7 +132,7 @@ private extension GestureButton {
         let isPressed = state.isPressed
         state.reset()
         if !isPressed { return }
-        state.dates.releaseDate = tryTriggerDoubleTap() ? .distantPast : Date()
+        state.releaseDate = tryTriggerDoubleTap() ? .distantPast : Date()
         state.dragEndAction?(value)
         if geo.contains(value.location) {
             state.releaseInsideAction?()
@@ -142,32 +142,10 @@ private extension GestureButton {
         state.endAction?()
     }
     
-    func tryTriggerLongPressAfterDelay() {
-        guard let action = state.longPressAction else { return }
-        let date = Date()
-        state.dates.longPressDate = date
-        let delay = state.longPressDelay
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            if state.isRemoved { return }
-            guard state.dates.longPressDate == date else { return }
-            action()
-        }
-    }
     
-    func tryTriggerRepeatAfterDelay() {
-        guard let action = state.repeatAction else { return }
-        let date = Date()
-        state.dates.repeatDate = date
-        let delay = state.repeatDelay
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            if state.isRemoved { return }
-            guard state.dates.repeatDate == date else { return }
-            state.repeatTimer.start { action() }
-        }
-    }
     
     func tryTriggerDoubleTap() -> Bool {
-        let interval = Date().timeIntervalSince(state.dates.releaseDate)
+        let interval = Date().timeIntervalSince(state.releaseDate)
         let isDoubleTap = interval < state.doubleTapTimeout
         if isDoubleTap { state.doubleTapAction?() }
         return isDoubleTap

@@ -85,10 +85,12 @@ class GestureButtonState: ObservableObject {
     let dragEndAction: DragAction?
     let endAction: Action?
     
-    var dates = DateStorage()
     var isPressed = false
     var isRemoved = false
     var lastGestureValue: DragGesture.Value?
+    var longPressDate = Date()
+    var releaseDate = Date()
+    var repeatDate = Date()
     var repeatTimer = RepeatGestureTimer()
 }
 
@@ -97,18 +99,21 @@ extension GestureButtonState {
     /// We should always reset the state when a gesture ends.
     func reset() {
         isPressed = false
-        dates.longPressDate = Date()    // Why reset?
-        dates.repeatDate = Date()
+        longPressDate = Date()
+        repeatDate = Date()
         repeatTimer.stop()
     }
     
-    /// Buttons that are accidentally triggered when swiping
-    /// a scroll view won't receive an end event, which will
-    /// cause them to stay in a pressed state. This function
-    /// tries to fix this bug by cancelling the gesture if a
-    /// single gesture has been received after the delay. It
-    /// can yield incorrect results, so we should find a way
-    /// to stop the end event bug from happening instead.
+    /// This function tries to fix an iOS bug, where buttons
+    /// may not always receive a gesture end event. This can
+    /// for instance happen when the button is near a scroll
+    /// view and is accidentally touched when a user scrolls.
+    /// The function checks if the original gesture is still
+    /// the last gesture when the cancel delay triggers, and
+    /// will if so cancel the gesture. Since this will cause
+    /// completely still gestures to be seen as accidentally
+    /// triggered, this function can yield incorrect results
+    /// and should be replaced by a proper bug fix.
     func tryTriggerCancelAfterDelay() {
         let value = lastGestureValue
         let delay = cancelDelay
@@ -118,11 +123,32 @@ extension GestureButtonState {
             self.endAction?()
         }
     }
-}
-
-/// This class is used for mutable, non-observed state.
-class DateStorage: ObservableObject {
-    var longPressDate = Date()
-    var releaseDate = Date()
-    var repeatDate = Date()
+    
+    /// This function tries to trigger the long press action
+    /// after the specified long press delay.
+    func tryTriggerLongPressAfterDelay() {
+        guard let action = longPressAction else { return }
+        let date = Date()
+        longPressDate = date
+        let delay = longPressDelay
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            if self.isRemoved { return }
+            guard self.longPressDate == date else { return }
+            action()
+        }
+    }
+    
+    /// This function tries to start a repeat action trigger
+    /// timer after repeat delay.
+    func tryTriggerRepeatAfterDelay() {
+        guard let action = repeatAction else { return }
+        let date = Date()
+        repeatDate = date
+        let delay = repeatDelay
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            if self.isRemoved { return }
+            guard self.repeatDate == date else { return }
+            self.repeatTimer.start { action() }
+        }
+    }
 }
