@@ -1,10 +1,10 @@
 <p align="center">
-    <img src ="Resources/Logo_GitHub.png" alt="GestureButton Logo" title="GestureButton" />
+    <img src ="Resources/Logo_rounded.png" alt="GestureButton Logo" title="GestureButton" />
 </p>
 
 <p align="center">
     <img src="https://img.shields.io/github/v/release/danielsaidi/GestureButton?color=%2300550&sort=semver" alt="Version" title="Version" />
-    <img src="https://img.shields.io/badge/swift-5.9-orange.svg" alt="Swift 5.9" title="Swift 5.9" />
+    <img src="https://img.shields.io/badge/swift-5.10-orange.svg" alt="Swift 5.10" title="Swift 5.10" />
     <img src="https://img.shields.io/badge/platform-SwiftUI-blue.svg" alt="Swift UI" title="Swift UI" />
     <img src="https://img.shields.io/github/license/danielsaidi/GestureButton" alt="MIT License" title="MIT License" />
     <a href="https://twitter.com/danielsaidi"><img src="https://img.shields.io/twitter/url?label=Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fdanielsaidi" alt="Twitter: @danielsaidi" title="Twitter: @danielsaidi" /></a>
@@ -14,31 +14,37 @@
 
 ## About GestureButton
 
-GestureButton is a SwiftUI button that lets you trigger many different gesture actions with a single button.
+GestureButton is a SwiftUI button that can handle many different gestures.
 
-With GestureButton, you just have to add a button to your view and specify which actions to trigger:
+You can use a `GestureButton` just like a regular view, and specify custom actions for any gesture that you want to handle:
 
 ```swift
 struct MyView: View {
 
     @State private var isPressed = false
     
-    GestureButton(
-        pressAction: { print("Pressed") },
-        releaseInsideAction: { print("Released Inside") },
-        releaseOutsideAction: { print("Released Outside") },
-        longPressAction: { print("Long Pressed") },
-        doubleTapAction: { print("Double Tapped") },
-        repeatAction: { print("Repeating Action") },
-        dragStartAction: { value in print("Drag Started") },
-        dragAction: { value in print("Drag \(value)") },
-        dragEndAction: { value in print("Drag Ended") },
-        endAction: { print("Gesture Ended") }
-    ) { isPressed in
-        // Add your button label view here. 
+    var body: some View {
+        GestureButton(
+            isPressed: $isPressed,
+            pressAction: { print("Pressed") },
+            releaseInsideAction: { print("Released Inside") },
+            releaseOutsideAction: { print("Released Outside") },
+            longPressAction: { print("Long Pressed") },
+            doubleTapAction: { print("Double Tapped") },
+            repeatAction: { print("Repeating Action") },
+            dragStartAction: { value in print("Drag Started") },
+            dragAction: { value in print("Drag \(value)") },
+            dragEndAction: { value in print("Drag Ended") },
+            endAction: { print("Gesture Ended") }
+        ) { isPressed in
+            Color.yellow // Add any label view here.
+        }
     }
 }
 ```
+
+You can customize the various delays and timeouts to take full control over how gestures are handled, for instance the time allowed between two taps for them to count as a double-tap.
+
 
 
 ## Installation
@@ -48,6 +54,8 @@ GestureButton can be installed with the Swift Package Manager:
 ```
 https://github.com/danielsaidi/GestureButton.git
 ```
+
+GestureButton supports iOS, iPadOS, macOS, watchOS, and visionOS.
 
 
 
