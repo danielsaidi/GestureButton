@@ -83,6 +83,7 @@ class GestureButtonState: ObservableObject {
     let dragEndAction: DragAction?
     let endAction: Action?
     
+    @Published
     var isPressed = false {
         didSet { isPressedBinding.wrappedValue = isPressed }
     }

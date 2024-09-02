@@ -13,7 +13,6 @@ struct ContentView: View {
     @State var isPressed = false
     
     var body: some View {
-        
         GestureButton(
             isPressed: $isPressed,
             pressAction: { print("Pressed") },
@@ -23,7 +22,7 @@ struct ContentView: View {
             doubleTapAction: { print("Double Tap") },
             repeatAction: { print("Repeat") },
             endAction: { print("Ended") }
-        ) { _ in
+        ) { isPressed in
             isPressed ? Color.green : Color.red
         }
     }
