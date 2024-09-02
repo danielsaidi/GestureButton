@@ -105,12 +105,6 @@ extension GestureButtonState {
     }
     
     /// Try to handle any new drag gestures as a press event.
-    func tryHandleDrag(_ value: DragGesture.Value) {
-        guard isPressed else { return }
-        dragAction?(value)
-    }
-    
-    /// Try to handle any new drag gestures as a press event.
     func tryHandlePress(_ value: DragGesture.Value) {
         if isPressed { return }
         isPressed = true
@@ -119,6 +113,32 @@ extension GestureButtonState {
         tryTriggerCancelAfterDelay()
         tryTriggerLongPressAfterDelay()
         tryTriggerRepeatAfterDelay()
+    }
+    
+    /// Try to handle any new drag gestures as a press event.
+    func tryHandleDrag(_ value: DragGesture.Value) {
+        guard isPressed else { return }
+        dragAction?(value)
+    }
+    
+    /// Try to handle drag end gestures as a release event.
+    ///
+    /// This function will trigger several actions, based on
+    /// how the gesture is ended. It will always trigger the
+    /// drag end and end actions, then either of the release
+    /// inside or outside actions.
+    func tryHandleRelease(_ value: DragGesture.Value, in geo: GeometryProxy) {
+        let shouldTrigger = self.isPressed
+        reset()
+        guard shouldTrigger else { return }
+        releaseDate = tryTriggerDoubleTap() ? .distantPast : Date()
+        dragEndAction?(value)
+        if geo.contains(value.location) {
+            releaseInsideAction?()
+        } else {
+            releaseOutsideAction?()
+        }
+        endAction?()
     }
     
     /// This function tries to fix an iOS bug, where buttons

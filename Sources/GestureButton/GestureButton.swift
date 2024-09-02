@@ -105,29 +105,10 @@ private extension GestureButton {
                             state.tryHandleDrag(value)
                         }
                         .onEnded { value in
-                            tryHandleRelease(value, in: geo)
+                            state.tryHandleRelease(value, in: geo)
                         }
                 )
         }
-    }
-}
-
-private extension GestureButton {
-    
-    /// A release should always reset the pressed state, but
-    /// should only proceed if the button is pressed.
-    func tryHandleRelease(_ value: DragGesture.Value, in geo: GeometryProxy) {
-        let isPressed = state.isPressed
-        state.reset()
-        if !isPressed { return }
-        state.releaseDate = state.tryTriggerDoubleTap() ? .distantPast : Date()
-        state.dragEndAction?(value)
-        if geo.contains(value.location) {
-            state.releaseInsideAction?()
-        } else {
-            state.releaseOutsideAction?()
-        }
-        state.endAction?()
     }
 }
 
