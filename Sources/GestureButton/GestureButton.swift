@@ -78,7 +78,8 @@ public struct GestureButton<Label: View>: View {
     public typealias DragAction = (DragGesture.Value) -> Void
     public typealias LabelBuilder = (_ isPressed: Bool) -> Label
     
-    @StateObject private var state: GestureButtonState
+    @StateObject 
+    private var state: GestureButtonState
     
     let label: LabelBuilder
     
@@ -92,21 +93,25 @@ public struct GestureButton<Label: View>: View {
 
 private extension GestureButton {
     
+    func gesture(
+        for geo: GeometryProxy
+    ) -> some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                state.lastGestureValue = value
+                state.tryHandlePress(value)
+                state.tryHandleDrag(value)
+            }
+            .onEnded { value in
+                state.tryHandleRelease(value, in: geo)
+            }
+    }
+    
     var gestureView: some View {
         GeometryReader { geo in
             Color.clear
                 .contentShape(Rectangle())
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { value in
-                            state.lastGestureValue = value
-                            state.tryHandlePress(value)
-                            state.tryHandleDrag(value)
-                        }
-                        .onEnded { value in
-                            state.tryHandleRelease(value, in: geo)
-                        }
-                )
+                .gesture(gesture(for: geo)) // TODO: simultaneousGesture in iOS 18
         }
     }
 }

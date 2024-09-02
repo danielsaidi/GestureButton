@@ -104,7 +104,7 @@ extension GestureButtonState {
         isPressed = false
         longPressDate = Date()
         repeatDate = Date()
-        repeatTimer.stop()
+        tryStopRepeatTimer()
     }
     
     /// Try to handle any new drag gestures as a press event.
@@ -198,8 +198,23 @@ extension GestureButtonState {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             if self.isRemoved { return }
             guard self.repeatDate == date else { return }
-            self.repeatTimer.start { action() }
+            self.tryStartRepeatTimer()
         }
+    }
+    
+    /// Try to start the repeat timer.
+    func tryStartRepeatTimer() {
+        if repeatTimer.isActive { return }
+        guard let action = repeatAction else { return }
+        repeatTimer.start {
+            action()
+        }
+    }
+    
+    /// Try to stop the repeat timer.
+    func tryStopRepeatTimer() {
+        guard repeatTimer.isActive else { return }
+        repeatTimer.stop()
     }
 }
 
