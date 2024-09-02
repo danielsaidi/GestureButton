@@ -14,13 +14,14 @@ struct MyView: View {
             longPressAction: { print("Long Pressed") },
             doubleTapAction: { print("Double Tapped") },
             repeatAction: { print("Repeating Action") },
-            dragStartAction: { value in print("Drag Started") },
+            dragStartAction: { value in print("Drag Started at \(value)") },
             dragAction: { value in print("Drag \(value)") },
-            dragEndAction: { value in print("Drag Ended") },
-            endAction: { print("Gesture Ended") }
-        ) { isPressed in
-            Color.yellow // Add any label view here.
-        }
+            dragEndAction: { value in print("Drag Ended at \(value)") },
+            endAction: { print("Gesture Ended") },
+            label: { isPressed in
+                isPressed ? Color.green : Color.gray // Add any label view here.
+            }
+        )
     }
 }
 #endif
