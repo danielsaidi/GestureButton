@@ -13,17 +13,30 @@ struct ContentView: View {
     @State var isPressed = false
     
     var body: some View {
-        GestureButton(
-            isPressed: $isPressed,
-            pressAction: { print("Pressed") },
-            releaseInsideAction: { print("Release: Inside") },
-            releaseOutsideAction: { print("Release: Outside") },
-            longPressAction: { print("Long Press") },
-            doubleTapAction: { print("Double Tap") },
-            repeatAction: { print("Repeat") },
-            endAction: { print("Ended") }
-        ) { isPressed in
-            isPressed ? Color.green : Color.red
+        VStack(spacing: 0) {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(0...50, id: \.self) {
+                        Button("\($0)") {
+                            print("tap")
+                        }
+                    }
+                }
+                .controlSize(.large)
+                .buttonStyle(.bordered)
+            }
+            GestureButton(
+                isPressed: $isPressed,
+                pressAction: { print("Pressed") },
+                releaseInsideAction: { print("Release: Inside") },
+                releaseOutsideAction: { print("Release: Outside") },
+                longPressAction: { print("Long Press") },
+                doubleTapAction: { print("Double Tap") },
+                repeatAction: { print("Repeat") },
+                endAction: { print("Ended") }
+            ) { isPressed in
+                isPressed ? Color.green : Color.red
+            }
         }
     }
 }
