@@ -68,8 +68,6 @@ class GestureButtonState: ObservableObject {
     public typealias Action = () -> Void
     public typealias DragAction = (DragGesture.Value) -> Void
     
-    var isPressedBinding: Binding<Bool>
-    
     let pressAction: Action?
     let cancelDelay: TimeInterval
     let releaseInsideAction: Action?
@@ -85,7 +83,11 @@ class GestureButtonState: ObservableObject {
     let dragEndAction: DragAction?
     let endAction: Action?
     
-    var isPressed = false
+    var isPressed = false {
+        didSet { isPressedBinding.wrappedValue = isPressed }
+    }
+    
+    var isPressedBinding: Binding<Bool>
     var isRemoved = false
     var lastGestureValue: DragGesture.Value?
     var longPressDate = Date()

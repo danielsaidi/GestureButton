@@ -85,7 +85,6 @@ public struct GestureButton<Label: View>: View {
     public var body: some View {
         label(state.isPressed)
             .overlay(gestureView)
-            .onChange(of: state.isPressed) { state.isPressedBinding.wrappedValue = $0 }
             .onDisappear { state.isRemoved = true }
             .accessibilityAddTraits(.isButton)
     }
