@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if os(iOS) || os(macOS) || os(watchOS)
 struct MyView: View {
 
     @State private var isPressed = false
@@ -22,3 +23,4 @@ struct MyView: View {
         }
     }
 }
+#endif

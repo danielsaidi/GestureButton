@@ -6,6 +6,7 @@
 //  Copyright © 2024 Daniel Saidi. All rights reserved.
 //
 
+#if os(iOS) || os(macOS) || os(watchOS)
 import SwiftUI
 
 /// This state class is used to manage state for the buttons
@@ -65,8 +66,8 @@ class GestureButtonState: ObservableObject {
         self.endAction = endAction
     }
     
-    public typealias Action = () -> Void
-    public typealias DragAction = (DragGesture.Value) -> Void
+    typealias Action = () -> Void
+    typealias DragAction = (DragGesture.Value) -> Void
     
     let pressAction: Action?
     let cancelDelay: TimeInterval
@@ -227,3 +228,4 @@ extension GeometryProxy {
         return true
     }
 }
+#endif
