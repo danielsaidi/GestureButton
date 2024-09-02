@@ -19,7 +19,7 @@ import SwiftUI
 /// into making gestures work. It can thus not apply another
 /// button style. Instead, you can use the `isPressed` value
 /// in the `label` builder to configure the content view.
-public struct ScrollViewGestureButton<Label: View>: View {
+struct ScrollViewGestureButton<Label: View>: View {
 
     /// Create a gesture button.
     ///
@@ -41,7 +41,7 @@ public struct ScrollViewGestureButton<Label: View>: View {
     ///   - dragEndAction: The action to trigger when a drag gesture ends.
     ///   - endAction: The action to trigger when a button gesture ends, by default `nil`.
     ///   - label: The button label.
-    public init(
+    init(
         isPressed: Binding<Bool>? = nil,
         pressAction: Action? = nil,
         releaseInsideAction: Action? = nil,
@@ -113,6 +113,7 @@ public struct ScrollViewGestureButton<Label: View>: View {
         .onChange(of: isPressedByGesture) { newValue in
             isPressed = newValue
         }
+        .accessibilityAddTraits(.isButton)
     }
 }
 

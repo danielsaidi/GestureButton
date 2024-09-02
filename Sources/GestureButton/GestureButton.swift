@@ -9,16 +9,18 @@
 #if os(iOS) || os(macOS) || os(watchOS)
 import SwiftUI
 
-/// This button can be used to trigger gesture-based actions
-/// in a way that doesn't work with a `ScrollView`.
+/// This button can be used to trigger gesture-based actions.
 ///
-/// Use a ``Gestures/ScrollViewGestureButton`` when you must
-/// add the button to a `ScrollView`.
+/// > Important: In iOS 17 and earlier, make sure to set the
+/// `isInScrollView` parameter to `true` if the button lives
+/// inside a `ScrollView`, otherwise the gestures won't work.
+/// This is not needed in iOS 18 and later.
 public struct GestureButton<Label: View>: View {
     
     /// Create a scroll gesture button.
     ///
     /// - Parameters:
+    ///   - isInScrollView: Whether this button is in a scroll view, by default `false`.
     ///   - isPressed: A custom, optional binding to track pressed state, by default `nil`.
     ///   - pressAction: The action to trigger when the button is pressed, by default `nil`.
     ///   - cancelDelay: The time it takes for a cancelled press to cancel itself.
@@ -37,6 +39,7 @@ public struct GestureButton<Label: View>: View {
     ///   - endAction: The action to trigger when a button gesture ends, by default `nil`.
     ///   - label: The button label.
     public init(
+        isInScrollView: Bool = false,
         isPressed: Binding<Bool>? = nil,
         pressAction: Action? = nil,
         cancelDelay: TimeInterval = GestureButtonDefaults.cancelDelay,
@@ -71,6 +74,7 @@ public struct GestureButton<Label: View>: View {
             dragEndAction: dragEndAction,
             endAction: endAction
         ))
+        self.isInScrollView = isInScrollView
         self.label = label
     }
     
@@ -81,9 +85,22 @@ public struct GestureButton<Label: View>: View {
     @StateObject 
     private var state: GestureButtonState
     
-    let label: LabelBuilder
+    private let isInScrollView: Bool
+    private let label: LabelBuilder
     
     public var body: some View {
+        if #available(iOS 18.0, macOS 15.0, watchOS 11.0, *) {
+            content
+        } else if isInScrollView {
+            ScrollViewGestureButton { isPressed in
+                label(isPressed)
+            }
+        } else {
+            content
+        }
+    }
+    
+    var content: some View {
         label(state.isPressed)
             .overlay(gestureView)
             .onDisappear { state.isRemoved = true }
@@ -111,7 +128,7 @@ private extension GestureButton {
         GeometryReader { geo in
             Color.clear
                 .contentShape(Rectangle())
-                .gesture(gesture(for: geo)) // TODO: simultaneousGesture in iOS 18
+                .simultaneousGesture(gesture(for: geo))
         }
     }
 }

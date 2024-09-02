@@ -10,23 +10,20 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State
-    private var log = ""
-    
     var body: some View {
         VStack(spacing: 0) {
             ScrollView(.horizontal) {
                 HStack(spacing: 50) {
                     ForEach(0...50, id: \.self) { _ in
-                        ScrollViewGestureButton(
-                            pressAction: { log("Pressed") },
-                            releaseInsideAction: { log("Release: Inside") },
-                            releaseOutsideAction: { log("Release: Outside") },
-                            longPressAction: { log("Long Press") },
-                            doubleTapAction: { log("Double Tap") },
-                            repeatAction: { log("Repeat") },
-                            // dragAction: { _ in log("Drag") },
-                            endAction: { log("Ended") }
+                        GestureButton(
+                            pressAction: { print("Pressed") },
+                            releaseInsideAction: { print("Release: Inside") },
+                            releaseOutsideAction: { print("Release: Outside") },
+                            longPressAction: { print("Long Press") },
+                            doubleTapAction: { print("Double Tap") },
+                            repeatAction: { print("Repeat") },
+                            dragAction: { _ in print("Drag") },
+                            endAction: { print("Ended") }
                         ) { isPressed in
                             isPressed ? Color.green : Color.red
                         }
@@ -34,20 +31,7 @@ struct ContentView: View {
                     }
                 }
             }
-            Divider()
-            TextField("",
-                text: $log,
-                axis: .vertical
-            )
-            .lineLimit(10, reservesSpace: true)
         }
-    }
-}
-
-private extension ContentView {
-    
-    func log(_ text: String) {
-        log.append("\n\(text)")
     }
 }
 

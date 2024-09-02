@@ -191,7 +191,6 @@ extension GestureButtonState {
     /// This function tries to start a repeat action trigger
     /// timer after repeat delay.
     func tryTriggerRepeatAfterDelay() {
-        guard let action = repeatAction else { return }
         let date = Date()
         repeatDate = date
         let delay = repeatDelay
@@ -204,8 +203,8 @@ extension GestureButtonState {
     
     /// Try to start the repeat timer.
     func tryStartRepeatTimer() {
-        if repeatTimer.isActive { return }
         guard let action = repeatAction else { return }
+        if repeatTimer.isActive { return }
         repeatTimer.start {
             action()
         }
