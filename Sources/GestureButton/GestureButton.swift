@@ -92,9 +92,22 @@ public struct GestureButton<Label: View>: View {
         if #available(iOS 18.0, macOS 15.0, watchOS 11.0, *) {
             content
         } else if isInScrollView {
-            ScrollViewGestureButton { isPressed in
-                label(isPressed)
-            }
+            ScrollViewGestureButton(
+                isPressed: $state.isPressed,
+                pressAction: state.pressAction,
+                releaseInsideAction: state.releaseInsideAction,
+                releaseOutsideAction: state.releaseOutsideAction,
+                longPressDelay: state.longPressDelay,
+                longPressAction: state.longPressAction,
+                doubleTapTimeout: state.doubleTapTimeout,
+                doubleTapAction: state.doubleTapAction,
+                repeatAction: state.repeatAction,
+                dragStartAction: state.dragStartAction,
+                dragAction: state.dragAction,
+                dragEndAction: state.dragEndAction,
+                endAction: state.endAction,
+                label: label
+            )
         } else {
             content
         }
