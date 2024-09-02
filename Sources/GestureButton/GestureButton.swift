@@ -100,6 +100,7 @@ private extension GestureButton {
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { value in
+                            state.lastGestureValue = value
                             tryHandlePress(value)
                             state.dragAction?(value)
                         }
@@ -116,12 +117,11 @@ private extension GestureButton {
     /// A press should trigger some actions and set up a few
     /// delays for other things to be handled.
     func tryHandlePress(_ value: DragGesture.Value) {
-        state.dates.lastGestureDate = Date()
         if state.isPressed { return }
         state.isPressed = true
         state.pressAction?()
         state.dragStartAction?(value)
-        tryTriggerCancelAfterDelay()
+        state.tryTriggerCancelAfterDelay()
         tryTriggerLongPressAfterDelay()
         tryTriggerRepeatAfterDelay()
     }
@@ -140,24 +140,6 @@ private extension GestureButton {
             state.releaseOutsideAction?()
         }
         state.endAction?()
-    }
-    
-    /// A button that's accidentally triggered when flicking
-    /// a scroll view won't receive a drag gesture end event.
-    /// This will cause the button to get stuck in a pressed
-    /// state, with the callout still showing and the button
-    /// being gray. This initial delay will try to fix those
-    /// errors by cancelling the gesture if a single gesture
-    /// event has been received when the delay triggers.
-    func tryTriggerCancelAfterDelay() {
-        let date = Date()
-        state.dates.lastGestureDate = date
-        let delay = state.cancelDelay
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            guard state.dates.lastGestureDate == date else { return }
-            state.reset()
-            state.endAction?()
-        }
     }
     
     func tryTriggerLongPressAfterDelay() {

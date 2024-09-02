@@ -88,6 +88,7 @@ class GestureButtonState: ObservableObject {
     var dates = DateStorage()
     var isPressed = false
     var isRemoved = false
+    var lastGestureValue: DragGesture.Value?
     var repeatTimer = RepeatGestureTimer()
 }
 
@@ -100,12 +101,27 @@ extension GestureButtonState {
         dates.repeatDate = Date()
         repeatTimer.stop()
     }
+    
+    /// Buttons that are accidentally triggered when swiping
+    /// a scroll view won't receive an end event, which will
+    /// cause them to stay in a pressed state. This function
+    /// tries to fix this bug by cancelling the gesture if a
+    /// single gesture has been received after the delay. It
+    /// can yield incorrect results, so we should find a way
+    /// to stop the end event bug from happening instead.
+    func tryTriggerCancelAfterDelay() {
+        let value = lastGestureValue
+        let delay = cancelDelay
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            guard self.lastGestureValue?.location == value?.location else { return }
+            self.reset()
+            self.endAction?()
+        }
+    }
 }
 
 /// This class is used for mutable, non-observed state.
 class DateStorage: ObservableObject {
-    
-    var lastGestureDate = Date()
     var longPressDate = Date()
     var releaseDate = Date()
     var repeatDate = Date()
