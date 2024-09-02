@@ -1,0 +1,9 @@
+# Release Notes
+
+## 0.0.1
+
+This is the first beta release of this package.
+
+### ✨ Features
+
+This version adds a `GestureButton` with many internal types.
