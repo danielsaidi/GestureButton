@@ -1,0 +1,10 @@
+disabled_rules:
+  - file_length
+  - identifier_name
+  - line_length
+  - trailing_whitespace
+  - vertical_whitespace
+
+included:
+  - Sources
+  - Tests
