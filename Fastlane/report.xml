@@ -5,104 +5,127 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="00: Verifying fastlane version" time="0.000236">
+      <testcase classname="fastlane.lanes" name="00: Verifying fastlane version" time="0.000243">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="01: default_platform" time="8.6e-05">
+      <testcase classname="fastlane.lanes" name="01: default_platform" time="8.0e-05">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="02: Switch to ios version_validate lane" time="7.6e-05">
+      <testcase classname="fastlane.lanes" name="02: Switch to ios version_validate lane" time="8.8e-05">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="03: ensure_git_status_clean" time="0.013438">
+      <testcase classname="fastlane.lanes" name="03: ensure_git_status_clean" time="0.019989">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="04: ensure_git_branch" time="0.00966">
+      <testcase classname="fastlane.lanes" name="04: ensure_git_branch" time="0.013614">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="05: swiftlint" time="0.131941">
+      <testcase classname="fastlane.lanes" name="05: swiftlint" time="0.285894">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="06: Switch to ios build_all lane" time="0.000129">
+      <testcase classname="fastlane.lanes" name="06: Switch to ios build_all lane" time="0.000145">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="07: Switch to ios build lane" time="0.000138">
+      <testcase classname="fastlane.lanes" name="07: Switch to ios build lane" time="7.3e-05">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="08: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=iOS&apos;;" time="8.115449">
+      <testcase classname="fastlane.lanes" name="08: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=iOS&apos;;" time="6.530051">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="09: Switch to ios build lane" time="0.000216">
+      <testcase classname="fastlane.lanes" name="09: Switch to ios build lane" time="0.000212">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="10: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=OS X&apos;;" time="9.48405">
+      <testcase classname="fastlane.lanes" name="10: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=OS X&apos;;" time="8.415983">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="11: Switch to ios build lane" time="0.000186">
+      <testcase classname="fastlane.lanes" name="11: Switch to ios build lane" time="0.000183">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="12: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=tvOS&apos;;" time="5.172366">
+      <testcase classname="fastlane.lanes" name="12: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=tvOS&apos;;" time="3.878353">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="13: Switch to ios build lane" time="0.00014">
+      <testcase classname="fastlane.lanes" name="13: Switch to ios build lane" time="0.000133">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="14: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=watchOS&apos;;" time="10.278981">
+      <testcase classname="fastlane.lanes" name="14: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=watchOS&apos;;" time="6.962919">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="15: Switch to ios build lane" time="0.000124">
+      <testcase classname="fastlane.lanes" name="15: Switch to ios build lane" time="0.000125">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="16: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=xrOS&apos;;" time="6.811806">
+      <testcase classname="fastlane.lanes" name="16: cd .. &amp;&amp; xcodebuild -scheme GestureButton -derivedDataPath .build -destination &apos;generic/platform=xrOS&apos;;" time="5.925257">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="17: Switch to ios test_all lane" time="0.000112">
+      <testcase classname="fastlane.lanes" name="17: Switch to ios test_all lane" time="0.000122">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="18: Switch to ios test_ios lane" time="6.3e-05">
+      <testcase classname="fastlane.lanes" name="18: Switch to ios test_ios lane" time="8.0e-05">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="19: cd .. &amp;&amp; xcodebuild test -scheme GestureButton -derivedDataPath .build -destination &apos;platform=iOS Simulator,name=iPhone 15,OS=17.2&apos; -enableCodeCoverage YES;" time="31.99996">
+      <testcase classname="fastlane.lanes" name="19: cd .. &amp;&amp; xcodebuild test -scheme GestureButton -derivedDataPath .build -destination &apos;platform=iOS Simulator,name=iPhone 15,OS=17.2&apos; -enableCodeCoverage YES;" time="40.260261">
         
-          <failure message="/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/actions/actions_helper.rb:67:in `execute_action&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/fast_file.rb:222:in `sh&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/fast_file.rb:216:in `sh&apos;&#10;../fastlane/Fastfile:32:in `block (2 levels) in parsing_binding&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/lane.rb:33:in `call&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:204:in `try_switch_to_lane&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:146:in `trigger_action_by_name&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/fast_file.rb:159:in `method_missing&apos;&#10;../fastlane/Fastfile:36:in `block (2 levels) in parsing_binding&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/lane.rb:33:in `call&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:204:in `try_switch_to_lane&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:146:in `trigger_action_by_name&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/fast_file.rb:159:in `method_missing&apos;&#10;../fastlane/Fastfile:60:in `block (2 levels) in parsing_binding&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/lane.rb:33:in `call&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:204:in `try_switch_to_lane&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:146:in `trigger_action_by_name&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/fast_file.rb:159:in `method_missing&apos;&#10;../fastlane/Fastfile:44:in `block (2 levels) in parsing_binding&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/lane.rb:33:in `call&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:49:in `block in execute&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:45:in `chdir&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/runner.rb:45:in `execute&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/lane_manager.rb:47:in `cruise_lane&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/command_line_handler.rb:36:in `handle&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/commands_generator.rb:110:in `block (2 levels) in run&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/commander-4.6.0/lib/commander/command.rb:187:in `call&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/commander-4.6.0/lib/commander/command.rb:157:in `run&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/commander-4.6.0/lib/commander/runner.rb:444:in `run_active_command&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane_core/lib/fastlane_core/ui/fastlane_runner.rb:124:in `run!&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/commander-4.6.0/lib/commander/delegates.rb:18:in `run!&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/commands_generator.rb:354:in `run&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/commands_generator.rb:43:in `start&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/fastlane/lib/fastlane/cli_tools_distributor.rb:123:in `take_off&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/gems/fastlane-2.214.0/bin/fastlane:23:in `&lt;top (required)&gt;&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/bin/fastlane:25:in `load&apos;&#10;/opt/homebrew/Cellar/fastlane/2.214.0/libexec/bin/fastlane:25:in `&lt;main&gt;&apos;&#10;&#10;Exit status of command &apos;cd .. &amp;&amp; xcodebuild test -scheme GestureButton -derivedDataPath .build -destination &apos;platform=iOS Simulator,name=iPhone 15,OS=17.2&apos; -enableCodeCoverage YES;&apos; was 70 instead of 0.&#10;Command line invocation:&#10;    /Applications/Xcode-16.0.0-Beta.2.app/Contents/Developer/usr/bin/xcodebuild test -scheme GestureButton -derivedDataPath .build -destination &quot;platform=iOS Simulator,name=iPhone 15,OS=17.2&quot; -enableCodeCoverage YES&#10;&#10;User defaults from command line:&#10;    IDEDerivedDataPathOverride = /Users/danielsaidi/Projects/opensource/GestureButton/.build&#10;    IDEPackageSupportUseBuiltinSCM = YES&#10;&#10;Resolve Package Graph&#10;&#10;&#10;Resolved source packages:&#10;  GestureButton: /Users/danielsaidi/Projects/opensource/GestureButton&#10;&#10;2024-09-02 14:35:26.604 xcodebuild[90587:2894535] Writing error result bundle to /var/folders/gz/ys62mgj95bl1qrlkwx7pdg3r0000gn/T/ResultBundle_2024-02-09_14-35-0026.xcresult&#10;xcodebuild: error: Unable to find a device matching the provided destination specifier:&#10;		{ platform:iOS Simulator, OS:17.2, name:iPhone 15 }&#10;&#10;	The requested device could not be found because no available devices matched the request.&#10;&#10;	Available destinations for the &quot;GestureButton&quot; scheme:&#10;		{ platform:macOS, arch:arm64e, id:00008112-0009081834A3C01E, name:My Mac }&#10;		{ platform:macOS, arch:arm64, id:00008112-0009081834A3C01E, name:My Mac }&#10;		{ platform:macOS, arch:x86_64, id:00008112-0009081834A3C01E, name:My Mac }&#10;		{ platform:macOS, arch:arm64e, variant:Mac Catalyst, id:00008112-0009081834A3C01E, name:My Mac }&#10;		{ platform:macOS, arch:arm64, variant:Mac Catalyst, id:00008112-0009081834A3C01E, name:My Mac }&#10;		{ platform:macOS, arch:x86_64, variant:Mac Catalyst, id:00008112-0009081834A3C01E, name:My Mac }&#10;		{ platform:macOS, arch:arm64, variant:DriverKit, id:00008112-0009081834A3C01E, name:My Mac }&#10;		{ platform:macOS, arch:arm64, variant:Designed for [iPad,iPhone], id:00008112-0009081834A3C01E, name:My Mac }&#10;		{ platform:iOS, arch:arm64e, id:00008130-00011CD10891401C, name:Daniel – iPhone }&#10;		{ platform:iOS, arch:arm64, id:00008130-00011CD10891401C, name:Daniel – iPhone }&#10;		{ platform:iOS, arch:arm64e, id:00008110-000A31D91EF2401E, name:Daniel iPhone 14 }&#10;		{ platform:iOS, arch:arm64, id:00008110-000A31D91EF2401E, name:Daniel iPhone 14 }&#10;		{ platform:DriverKit, name:Any DriverKit Host }&#10;		{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }&#10;		{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }&#10;		{ platform:macOS, name:Any Mac }&#10;		{ platform:macOS, variant:Mac Catalyst, name:Any Mac }&#10;		{ platform:tvOS, id:dvtdevice-DVTiOSDevicePlaceholder-appletvos:placeholder, name:Any tvOS Device }&#10;		{ platform:tvOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-appletvsimulator:placeholder, name:Any tvOS Simulator Device }&#10;		{ platform:watchOS, id:dvtdevice-DVTiOSDevicePlaceholder-watchos:placeholder, name:Any watchOS Device }&#10;		{ platform:watchOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-watchsimulator:placeholder, name:Any watchOS Simulator Device }&#10;		{ platform:tvOS Simulator, id:227E54F1-14A7-4A47-85E5-238A6C0735B8, OS:18.0, name:Apple TV }&#10;		{ platform:tvOS Simulator, id:227E54F1-14A7-4A47-85E5-238A6C0735B8, OS:18.0, name:Apple TV }&#10;		{ platform:tvOS Simulator, id:E3C53088-A131-47E9-8E64-1FD0B87C4421, OS:18.0, name:Apple TV 4K (3rd generation) }&#10;		{ platform:tvOS Simulator, id:E3C53088-A131-47E9-8E64-1FD0B87C4421, OS:18.0, name:Apple TV 4K (3rd generation) }&#10;		{ platform:tvOS Simulator, id:1D050207-B94F-48F0-974B-633CA784C80F, OS:18.0, name:Apple TV 4K (3rd generation) (at 1080p) }&#10;		{ platform:tvOS Simulator, id:1D050207-B94F-48F0-974B-633CA784C80F, OS:18.0, name:Apple TV 4K (3rd generation) (at 1080p) }&#10;		{ platform:visionOS Simulator, variant:Designed for [iPad,iPhone], id:8FA68273-F3E6-4520-A858-DFD6E64C59E4, OS:2.0, name:Apple Vision Pro }&#10;		{ platform:watchOS Simulator, id:2B8BD93B-2171-48F5-AE40-195062542D27, OS:11.0, name:Apple Watch SE (40mm) (2nd generation) }&#10;		{ platform:watchOS Simulator, id:2B8BD93B-2171-48F5-AE40-195062542D27, OS:11.0, name:Apple Watch SE (40mm) (2nd generation) }&#10;		{ platform:watchOS Simulator, id:01F45ACE-57FA-4D05-8559-E27E0481516F, OS:11.0, name:Apple Watch SE (44mm) (2nd generation) }&#10;		{ platform:watchOS Simulator, id:01F45ACE-57FA-4D05-8559-E27E0481516F, OS:11.0, name:Apple Watch SE (44mm) (2nd generation) }&#10;		{ platform:watchOS Simulator, id:3C5422F8-BF70-40B6-B7BC-5F9ADB228214, OS:11.0, name:Apple Watch Series 6 (40mm) }&#10;		{ platform:watchOS Simulator, id:3C5422F8-BF70-40B6-B7BC-5F9ADB228214, OS:11.0, name:Apple Watch Series 6 (40mm) }&#10;		{ platform:watchOS Simulator, id:B526976B-DC2D-4660-8B2C-D5DEE218BB63, OS:11.0, name:Apple Watch Series 6 (44mm) }&#10;		{ platform:watchOS Simulator, id:B526976B-DC2D-4660-8B2C-D5DEE218BB63, OS:11.0, name:Apple Watch Series 6 (44mm) }&#10;		{ platform:watchOS Simulator, id:E0763391-9AAB-451F-B874-1BF68D2CA5E6, OS:11.0, name:Apple Watch Series 7 (41mm) }&#10;		{ platform:watchOS Simulator, id:E0763391-9AAB-451F-B874-1BF68D2CA5E6, OS:11.0, name:Apple Watch Series 7 (41mm) }&#10;		{ platform:watchOS Simulator, id:8801BD47-1BBA-4EFB-9D24-295CBCEEAFC0, OS:11.0, name:Apple Watch Series 7 (45mm) }&#10;		{ platform:watchOS Simulator, id:8801BD47-1BBA-4EFB-9D24-295CBCEEAFC0, OS:11.0, name:Apple Watch Series 7 (45mm) }&#10;		{ platform:watchOS Simulator, id:591757FC-FEEB-4EF2-B52F-16779FB145C9, OS:11.0, name:Apple Watch Series 9 (41mm) }&#10;		{ platform:watchOS Simulator, id:591757FC-FEEB-4EF2-B52F-16779FB145C9, OS:11.0, name:Apple Watch Series 9 (41mm) }&#10;		{ platform:watchOS Simulator, id:5BC1FE13-01FE-49DF-AC03-A96C63E8D421, OS:11.0, name:Apple Watch Series 9 (45mm) }&#10;		{ platform:watchOS Simulator, id:5BC1FE13-01FE-49DF-AC03-A96C63E8D421, OS:11.0, name:Apple Watch Series 9 (45mm) }&#10;		{ platform:watchOS Simulator, id:3BD38965-4EE0-43DC-A1C6-CEE62341AB5D, OS:11.0, name:Apple Watch Ultra 2 (49mm) }&#10;		{ platform:watchOS Simulator, id:3BD38965-4EE0-43DC-A1C6-CEE62341AB5D, OS:11.0, name:Apple Watch Ultra 2 (49mm) }&#10;		{ platform:iOS Simulator, id:54FC59E5-B84C-42B1-914A-5E52F102F9B5, OS:18.0, name:iPad (10th generation) }&#10;		{ platform:iOS Simulator, id:54FC59E5-B84C-42B1-914A-5E52F102F9B5, OS:18.0, name:iPad (10th generation) }&#10;		{ platform:iOS Simulator, id:5DE5FBF5-F708-4A18-8E74-86D38C3B0A0C, OS:18.0, name:iPad Air 11-inch (M2) }&#10;		{ platform:iOS Simulator, id:5DE5FBF5-F708-4A18-8E74-86D38C3B0A0C, OS:18.0, name:iPad Air 11-inch (M2) }&#10;		{ platform:iOS Simulator, id:EC495679-BF4C-42BE-BBA1-805EB9B2020E, OS:18.0, name:iPad Air 13-inch (M2) }&#10;		{ platform:iOS Simulator, id:EC495679-BF4C-42BE-BBA1-805EB9B2020E, OS:18.0, name:iPad Air 13-inch (M2) }&#10;		{ platform:iOS Simulator, id:BC7EEF4E-C148-4B6D-A17D-7F6F990DAB83, OS:18.0, name:iPad Pro 11-inch (M4) }&#10;		{ platform:iOS Simulator, id:BC7EEF4E-C148-4B6D-A17D-7F6F990DAB83, OS:18.0, name:iPad Pro 11-inch (M4) }&#10;		{ platform:iOS Simulator, id:0C9467AD-1CC5-42A8-9954-2CE7F3C5EF99, OS:18.0, name:iPad Pro 13-inch (M4) }&#10;		{ platform:iOS Simulator, id:0C9467AD-1CC5-42A8-9954-2CE7F3C5EF99, OS:18.0, name:iPad Pro 13-inch (M4) }&#10;		{ platform:iOS Simulator, id:3B5D8E14-BC81-418C-92B8-1FC174330D63, OS:18.0, name:iPad mini (6th generation) }&#10;		{ platform:iOS Simulator, id:3B5D8E14-BC81-418C-92B8-1FC174330D63, OS:18.0, name:iPad mini (6th generation) }&#10;		{ platform:iOS Simulator, id:606DE759-21CA-446E-BAE0-74B1F202D469, OS:18.0, name:iPhone 15 }&#10;		{ platform:iOS Simulator, id:606DE759-21CA-446E-BAE0-74B1F202D469, OS:18.0, name:iPhone 15 }&#10;		{ platform:iOS Simulator, id:90695E56-A0CB-46AD-B0DD-2AF1F906CE4A, OS:18.0, name:iPhone 15 Plus }&#10;		{ platform:iOS Simulator, id:90695E56-A0CB-46AD-B0DD-2AF1F906CE4A, OS:18.0, name:iPhone 15 Plus }&#10;		{ platform:iOS Simulator, id:1F322E97-91D0-4EF9-BE5C-5D74C5674811, OS:18.0, name:iPhone 15 Pro }&#10;		{ platform:iOS Simulator, id:1F322E97-91D0-4EF9-BE5C-5D74C5674811, OS:18.0, name:iPhone 15 Pro }&#10;		{ platform:iOS Simulator, id:C75C74FC-362F-492A-94F6-8B8173A7F581, OS:18.0, name:iPhone 15 Pro Max }&#10;		{ platform:iOS Simulator, id:C75C74FC-362F-492A-94F6-8B8173A7F581, OS:18.0, name:iPhone 15 Pro Max }&#10;		{ platform:iOS Simulator, id:54B5B1CF-178A-460F-B7B1-6971C33F9C45, OS:18.0, name:iPhone SE (3rd generation) }&#10;		{ platform:iOS Simulator, id:54B5B1CF-178A-460F-B7B1-6971C33F9C45, OS:18.0, name:iPhone SE (3rd generation) }&#10;&#10;	Ineligible destinations for the &quot;GestureButton&quot; scheme:&#10;		{ platform:visionOS, id:dvtdevice-DVTiOSDevicePlaceholder-xros:placeholder, name:Any visionOS Device, error:visionOS 2.0 is not installed. To use with Xcode, first download and install the platform }&#10;" />
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="20: version_bump_podspec" time="0.001329">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="21: git_commit" time="0.042349">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="22: add_git_tag" time="0.024526">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="23: push_git_tags" time="1.730121">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="24: push_to_git_remote" time="1.690951">
         
       </testcase>
     

@@ -12,8 +12,12 @@ import Foundation
 /// a button is kept pressed.
 public class GestureButtonTimer: ObservableObject {
 
+    /// Create a custom gesture button timer.
+    ///
+    /// - Parameters:
+    ///   - interval: The trigger interval, by default `0.1`.
     public init(
-        interval: TimeInterval = 0.4
+        interval: TimeInterval = 0.1
     ) {
         self.interval = interval
     }

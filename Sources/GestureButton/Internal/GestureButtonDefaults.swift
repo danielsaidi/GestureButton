@@ -12,14 +12,14 @@ import Foundation
 struct GestureButtonDefaults {
 
     /// The time to wait before checking if the gesture was silently cancelled.
-    static var cancelDelay = 3.0
+    static let cancelDelay = 3.0
 
     /// The max time between two taps for them to count as a double tap.
-    static var doubleTapTimeout = 0.2
-    
+    static let doubleTapTimeout = 0.2
+
     /// The time it takes for a press to count as a long press.
-    static var longPressDelay = 0.5
-    
+    static let longPressDelay = 0.5
+
     /// The time it takes for a press to count as a repeat trigger.
-    static var repeatDelay = 0.5
+    static let repeatDelay = 0.5
 }
