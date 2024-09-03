@@ -9,29 +9,10 @@
 #if os(iOS) || os(macOS) || os(watchOS)
 import SwiftUI
 
-/// This state class is used to manage state for the buttons
-/// in this library.
+/// This state is used to manage values for a gesture button.
 class GestureButtonState: ObservableObject {
     
     /// Create a gesture button state value.
-    ///
-    /// - Parameters:
-    ///   - isPressed: A custom, optional binding to track pressed state, if any.
-    ///   - pressAction: The action to trigger when the button is pressed, if any.
-    ///   - cancelDelay: The time it takes for a cancelled press to cancel itself, by default `3.0` seconds.
-    ///   - releaseInsideAction: The action to trigger when the button is released inside, if any.
-    ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, if any.
-    ///   - longPressDelay: The time it takes for a press to count as a long press, by default `0.5` seconds.
-    ///   - longPressAction: The action to trigger when the button is long pressed, if any.
-    ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap, by default `0.2` seconds.
-    ///   - doubleTapAction: The action to trigger when the button is double tapped, if any.
-    ///   - repeatDelay: The time it takes for a press to start a repeating action, by default `0.5` seconds.
-    ///   - repeatTimer: A custom repeat timer to use for the repeating action, if any.
-    ///   - repeatAction: The action to repeat while the button is being pressed, if any.
-    ///   - dragStartAction: The action to trigger when a drag gesture starts, if any.
-    ///   - dragAction: The action to trigger when a drag gesture changes, if any.
-    ///   - dragEndAction: The action to trigger when a drag gesture ends, if any.
-    ///   - endAction: The action to trigger when a button gesture ends, if any.
     init(
         isPressed: Binding<Bool>? = nil,
         pressAction: Action? = nil,

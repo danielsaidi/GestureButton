@@ -1,10 +1,10 @@
 # ``GestureButton``
 
-GestureButton is a SwiftUI button that can handle many different gestures.
+GestureButton is a SwiftUI button that can trigger many different gesture actions.
 
 ![GestureButton Logo](Logo_rounded)
 
-You can use a ``GestureButton/GestureButton`` just like a regular view, and specify custom actions for any gesture that you want to handle:
+You can use a ``GestureButton/GestureButton`` just like a regular `Button`, but specify different actions for different gestures that you want to handle:
 
 ```swift
 struct MyView: View {
@@ -31,7 +31,7 @@ struct MyView: View {
 }
 ```
 
-You can customize the various delays and timeouts to take full control over how gestures are handled, for instance the time allowed between two taps for them to count as a double-tap.
+You can customize various delays and timeouts that determine how the button behaves, for instance the time for two taps to count as a double-tap. You can also inject a shared repeat timer if you need to coordinate events.
 
 
 
