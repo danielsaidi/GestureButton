@@ -1,5 +1,5 @@
 //
-//  RepeatGestureTimer.swift
+//  GestureButtonTimer.swift
 //  GestureButton
 //
 //  Created by Daniel Saidi on 2021-01-28.
@@ -10,24 +10,24 @@ import Foundation
 
 /// This internal class can be used to repeat an action when
 /// a button is kept pressed.
-class RepeatGestureTimer: ObservableObject {
+public class GestureButtonTimer: ObservableObject {
 
-    init(
-        repeatInterval: TimeInterval = 0.4
+    public init(
+        interval: TimeInterval = 0.4
     ) {
-        self.repeatInterval = repeatInterval
+        self.interval = interval
     }
 
     deinit { stop() }
 
-    var repeatInterval: TimeInterval
+    var interval: TimeInterval
 
     private var timer: Timer?
 
     private var startDate: Date?
 }
 
-extension RepeatGestureTimer {
+extension GestureButtonTimer {
 
     /// The elapsed time since the timer was started.
     var duration: TimeInterval? {
@@ -44,7 +44,7 @@ extension RepeatGestureTimer {
         stop()
         startDate = Date()
         timer = Timer.scheduledTimer(
-            withTimeInterval: repeatInterval,
+            withTimeInterval: interval,
             repeats: true
         ) { _ in action() }
     }
@@ -57,7 +57,7 @@ extension RepeatGestureTimer {
     }
 }
 
-extension RepeatGestureTimer {
+extension GestureButtonTimer {
 
     func modifyStartDate(to date: Date) {
         startDate = date

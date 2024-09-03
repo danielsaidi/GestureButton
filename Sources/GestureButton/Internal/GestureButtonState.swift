@@ -16,33 +16,34 @@ class GestureButtonState: ObservableObject {
     /// Create a gesture button state value.
     ///
     /// - Parameters:
-    ///   - isPressed: A custom, optional binding to track pressed state, by default `nil`.
-    ///   - pressAction: The action to trigger when the button is pressed, by default `nil`.
-    ///   - cancelDelay: The time it takes for a cancelled press to cancel itself.
-    ///   - releaseInsideAction: The action to trigger when the button is released inside, by default `nil`.
-    ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, by default `nil`.
-    ///   - longPressDelay: The time it takes for a press to count as a long press.
-    ///   - longPressAction: The action to trigger when the button is long pressed, by default `nil`.
-    ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap.
-    ///   - doubleTapAction: The action to trigger when the button is double tapped, by default `nil`.
-    ///   - repeatDelay: The time it takes for a press to count as a repeat trigger.
-    ///   - repeatTimer: The repeat timer to use for the repeat action.
-    ///   - repeatAction: The action to repeat while the button is being pressed, by default `nil`.
-    ///   - dragStartAction: The action to trigger when a drag gesture starts.
-    ///   - dragAction: The action to trigger when a drag gesture changes.
-    ///   - dragEndAction: The action to trigger when a drag gesture ends.
-    ///   - endAction: The action to trigger when a button gesture ends, by default `nil`.
+    ///   - isPressed: A custom, optional binding to track pressed state, if any.
+    ///   - pressAction: The action to trigger when the button is pressed, if any.
+    ///   - cancelDelay: The time it takes for a cancelled press to cancel itself, by default `3.0` seconds.
+    ///   - releaseInsideAction: The action to trigger when the button is released inside, if any.
+    ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, if any.
+    ///   - longPressDelay: The time it takes for a press to count as a long press, by default `0.5` seconds.
+    ///   - longPressAction: The action to trigger when the button is long pressed, if any.
+    ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap, by default `0.2` seconds.
+    ///   - doubleTapAction: The action to trigger when the button is double tapped, if any.
+    ///   - repeatDelay: The time it takes for a press to start a repeating action, by default `0.5` seconds.
+    ///   - repeatTimer: A custom repeat timer to use for the repeating action, if any.
+    ///   - repeatAction: The action to repeat while the button is being pressed, if any.
+    ///   - dragStartAction: The action to trigger when a drag gesture starts, if any.
+    ///   - dragAction: The action to trigger when a drag gesture changes, if any.
+    ///   - dragEndAction: The action to trigger when a drag gesture ends, if any.
+    ///   - endAction: The action to trigger when a button gesture ends, if any.
     init(
         isPressed: Binding<Bool>? = nil,
         pressAction: Action? = nil,
-        cancelDelay: TimeInterval = GestureButtonDefaults.cancelDelay,
+        cancelDelay: TimeInterval? = nil,
         releaseInsideAction: Action? = nil,
         releaseOutsideAction: Action? = nil,
-        longPressDelay: TimeInterval = GestureButtonDefaults.longPressDelay,
+        longPressDelay: TimeInterval? = nil,
         longPressAction: Action? = nil,
-        doubleTapTimeout: TimeInterval = GestureButtonDefaults.doubleTapTimeout,
+        doubleTapTimeout: TimeInterval? = nil,
         doubleTapAction: Action? = nil,
-        repeatDelay: TimeInterval = GestureButtonDefaults.repeatDelay,
+        repeatDelay: TimeInterval? = nil,
+        repeatTimer: GestureButtonTimer? = nil,
         repeatAction: Action? = nil,
         dragStartAction: DragAction? = nil,
         dragAction: DragAction? = nil,
@@ -51,14 +52,15 @@ class GestureButtonState: ObservableObject {
     ) {
         self.isPressedBinding = isPressed ?? .constant(false)
         self.pressAction = pressAction
-        self.cancelDelay = cancelDelay
+        self.cancelDelay = cancelDelay ?? GestureButtonDefaults.cancelDelay
         self.releaseInsideAction = releaseInsideAction
         self.releaseOutsideAction = releaseOutsideAction
-        self.longPressDelay = longPressDelay
+        self.longPressDelay = longPressDelay ?? GestureButtonDefaults.longPressDelay
         self.longPressAction = longPressAction
-        self.doubleTapTimeout = doubleTapTimeout
+        self.doubleTapTimeout = doubleTapTimeout ?? GestureButtonDefaults.doubleTapTimeout
         self.doubleTapAction = doubleTapAction
-        self.repeatDelay = repeatDelay
+        self.repeatTimer = repeatTimer ?? .init()
+        self.repeatDelay = repeatDelay ?? GestureButtonDefaults.repeatDelay
         self.repeatAction = repeatAction
         self.dragStartAction = dragStartAction
         self.dragAction = dragAction
@@ -77,6 +79,7 @@ class GestureButtonState: ObservableObject {
     let longPressAction: Action?
     let doubleTapTimeout: TimeInterval
     let doubleTapAction: Action?
+    let repeatTimer: GestureButtonTimer
     let repeatDelay: TimeInterval
     let repeatAction: Action?
     let dragStartAction: DragAction?
@@ -95,7 +98,6 @@ class GestureButtonState: ObservableObject {
     var longPressDate = Date()
     var releaseDate = Date()
     var repeatDate = Date()
-    var repeatTimer = RepeatGestureTimer()
 }
 
 extension GestureButtonState {

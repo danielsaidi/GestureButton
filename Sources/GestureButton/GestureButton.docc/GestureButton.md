@@ -58,3 +58,4 @@ GestureButton is available under the MIT license.
 ### Essentials
 
 - ``GestureButton/GestureButton``
+- ``GestureButtonTimer``

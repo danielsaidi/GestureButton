@@ -17,30 +17,30 @@ import SwiftUI
 /// This is not needed in iOS 18 and later.
 public struct GestureButton<Label: View>: View {
     
-    /// Create a scroll gesture button.
+    /// Create a gesture button.
     ///
     /// - Parameters:
     ///   - isInScrollView: Whether this button is in a scroll view, by default `false`.
-    ///   - isPressed: A custom, optional binding to track pressed state, by default `nil`.
-    ///   - pressAction: The action to trigger when the button is pressed, by default `nil`.
+    ///   - isPressed: A custom, optional binding to track pressed state, if any.
+    ///   - pressAction: The action to trigger when the button is pressed, if any.
     ///   - cancelDelay: The time it takes for a cancelled press to cancel itself, by default `3.0` seconds.
-    ///   - releaseInsideAction: The action to trigger when the button is released inside, by default `nil`.
-    ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, by default `nil`.
+    ///   - releaseInsideAction: The action to trigger when the button is released inside, if any.
+    ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, if any.
     ///   - longPressDelay: The time it takes for a press to count as a long press, by default `0.5` seconds.
-    ///   - longPressAction: The action to trigger when the button is long pressed, by default `nil`.
+    ///   - longPressAction: The action to trigger when the button is long pressed, if any.
     ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap, by default `0.2` seconds.
-    ///   - doubleTapAction: The action to trigger when the button is double tapped, by default `nil`.
-    ///   - repeatDelay: The time it takes for a press to count as a repeat trigger, by default `0.5` seconds.
-    ///   - repeatTimer: The repeat timer to use for the repeat action.
-    ///   - repeatAction: The action to repeat while the button is being pressed, by default `nil`.
-    ///   - dragStartAction: The action to trigger when a drag gesture starts.
-    ///   - dragAction: The action to trigger when a drag gesture changes.
-    ///   - dragEndAction: The action to trigger when a drag gesture ends.
-    ///   - endAction: The action to trigger when a button gesture ends, by default `nil`.
+    ///   - doubleTapAction: The action to trigger when the button is double tapped, if any.
+    ///   - repeatDelay: The time it takes for a press to start a repeating action, by default `0.5` seconds.
+    ///   - repeatTimer: A custom repeat timer to use for the repeating action, if any.
+    ///   - repeatAction: The action to repeat while the button is being pressed, if any.
+    ///   - dragStartAction: The action to trigger when a drag gesture starts, if any.
+    ///   - dragAction: The action to trigger when a drag gesture changes, if any.
+    ///   - dragEndAction: The action to trigger when a drag gesture ends, if any.
+    ///   - endAction: The action to trigger when a button gesture ends, if any.
     ///   - label: The button label.
     public init(
-        isInScrollView: Bool = false,
         isPressed: Binding<Bool>? = nil,
+        isInScrollView: Bool = false,
         pressAction: Action? = nil,
         cancelDelay: TimeInterval? = nil,
         releaseInsideAction: Action? = nil,
@@ -50,6 +50,7 @@ public struct GestureButton<Label: View>: View {
         doubleTapTimeout: TimeInterval? = nil,
         doubleTapAction: Action? = nil,
         repeatDelay: TimeInterval? = nil,
+        repeatTimer: GestureButtonTimer? = nil,
         repeatAction: Action? = nil,
         dragStartAction: DragAction? = nil,
         dragAction: DragAction? = nil,
@@ -58,16 +59,17 @@ public struct GestureButton<Label: View>: View {
         label: @escaping LabelBuilder
     ) {
         self._state = .init(wrappedValue: .init(
-            isPressed: isPressed ?? .constant(false),
+            isPressed: isPressed,
             pressAction: pressAction,
-            cancelDelay: cancelDelay ?? GestureButtonDefaults.cancelDelay,
+            cancelDelay: cancelDelay,
             releaseInsideAction: releaseInsideAction,
             releaseOutsideAction: releaseOutsideAction,
-            longPressDelay: longPressDelay ?? GestureButtonDefaults.longPressDelay,
+            longPressDelay: longPressDelay,
             longPressAction: longPressAction,
-            doubleTapTimeout: doubleTapTimeout ?? GestureButtonDefaults.doubleTapTimeout,
+            doubleTapTimeout: doubleTapTimeout,
             doubleTapAction: doubleTapAction,
-            repeatDelay: repeatDelay ?? GestureButtonDefaults.repeatDelay,
+            repeatDelay: repeatDelay,
+            repeatTimer: repeatTimer,
             repeatAction: repeatAction,
             dragStartAction: dragStartAction,
             dragAction: dragAction,
@@ -77,7 +79,7 @@ public struct GestureButton<Label: View>: View {
         self.isInScrollView = isInScrollView
         self.label = label
     }
-    
+
     public typealias Action = () -> Void
     public typealias DragAction = (DragGesture.Value) -> Void
     public typealias LabelBuilder = (_ isPressed: Bool) -> Label

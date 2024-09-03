@@ -10,47 +10,21 @@
 import SwiftUI
 
 /// This button can be used to trigger gesture-based actions
-/// in a way that works within a `ScrollView`.
-///
-/// Use a ``Gestures/GestureButton`` when you do not have to
-/// add it to a `ScrollView`, since it's more performant.
-///
-/// > Note: This view uses a `ButtonStyle` to trick the view
-/// into making gestures work. It can thus not apply another
-/// button style. Instead, you can use the `isPressed` value
-/// in the `label` builder to configure the content view.
+/// in a way that works in a `ScrollView` before iOS 18. The
+/// view is no longer needed from iOS 18.
 struct ScrollViewGestureButton<Label: View>: View {
 
-    /// Create a gesture button.
-    ///
-    /// - Parameters:
-    ///   - isPressed: A custom, optional binding to track pressed state, by default `nil`.
-    ///   - pressAction: The action to trigger when the button is pressed, by default `nil`.
-    ///   - cancelDelay: The time it takes for a cancelled press to cancel itself.
-    ///   - releaseInsideAction: The action to trigger when the button is released inside, by default `nil`.
-    ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, by default `nil`.
-    ///   - longPressDelay: The time it takes for a press to count as a long press.
-    ///   - longPressAction: The action to trigger when the button is long pressed, by default `nil`.
-    ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap.
-    ///   - doubleTapAction: The action to trigger when the button is double tapped, by default `nil`.
-    ///   - repeatDelay: The time it takes for a press to count as a repeat trigger.
-    ///   - repeatTimer: The repeat timer to use for the repeat action.
-    ///   - repeatAction: The action to repeat while the button is being pressed, by default `nil`.
-    ///   - dragStartAction: The action to trigger when a drag gesture starts.
-    ///   - dragAction: The action to trigger when a drag gesture changes.
-    ///   - dragEndAction: The action to trigger when a drag gesture ends.
-    ///   - endAction: The action to trigger when a button gesture ends, by default `nil`.
-    ///   - label: The button label.
     init(
         isPressed: Binding<Bool>? = nil,
         pressAction: Action? = nil,
         releaseInsideAction: Action? = nil,
         releaseOutsideAction: Action? = nil,
-        longPressDelay: TimeInterval = GestureButtonDefaults.longPressDelay,
+        longPressDelay: TimeInterval? = nil,
         longPressAction: Action? = nil,
-        doubleTapTimeout: TimeInterval = GestureButtonDefaults.doubleTapTimeout,
+        doubleTapTimeout: TimeInterval? = nil,
         doubleTapAction: Action? = nil,
         repeatAction: Action? = nil,
+        repeatTimer: GestureButtonTimer? = nil,
         dragStartAction: DragAction? = nil,
         dragAction: DragAction? = nil,
         dragEndAction: DragAction? = nil,
@@ -63,11 +37,11 @@ struct ScrollViewGestureButton<Label: View>: View {
             pressAction: pressAction ?? {},
             releaseInsideAction: releaseInsideAction ?? {},
             releaseOutsideAction: releaseOutsideAction ?? {},
-            longPressDelay: longPressDelay,
+            longPressDelay: longPressDelay ?? GestureButtonDefaults.longPressDelay,
             longPressAction: longPressAction ?? {},
-            doubleTapTimeout: doubleTapTimeout,
+            doubleTapTimeout: doubleTapTimeout ?? GestureButtonDefaults.doubleTapTimeout,
             doubleTapAction: doubleTapAction ?? {},
-            repeatTimer: .init(),
+            repeatTimer: repeatTimer ?? .init(),
             repeatAction: repeatAction,
             dragStartAction: dragStartAction,
             dragAction: dragAction,
@@ -135,7 +109,7 @@ extension ScrollViewGestureButton {
         let longPressAction: Action
         let doubleTapTimeout: TimeInterval
         let doubleTapAction: Action
-        let repeatTimer: RepeatGestureTimer
+        let repeatTimer: GestureButtonTimer
         let repeatAction: Action?
         let dragStartAction: DragAction?
         let dragAction: DragAction?
