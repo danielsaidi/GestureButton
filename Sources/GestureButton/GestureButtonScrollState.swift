@@ -42,7 +42,7 @@ public extension View {
 #if compiler(>=6)
         if #available(iOS 18.0, macOS 15.0, watchOS 11.0, visionOS 2.0, *) {
             self.scrollDisabled(state.isScrollGestureDisabled)
-                .onScrollPhaseChange { oldPhase, newPhase in
+                .onScrollPhaseChange { _, newPhase in
                     state.isScrolling = newPhase != .idle
                 }
         } else {

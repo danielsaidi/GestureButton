@@ -33,10 +33,11 @@ struct ContentView2: View {
         ScrollView(.horizontal) {
             GestureButton(
                 scrollState: scrollState,
-                pressAction: { print("Pressed") }
-            ) { isPressed in
-                Color.yellow // You can use any button content view.
-            }
+                pressAction: { print("Pressed") },
+                label: { _ in
+                    Color.yellow // You can use any button content view.
+                }
+            )
         }
         .scrollGestureState(scrollState)
     }

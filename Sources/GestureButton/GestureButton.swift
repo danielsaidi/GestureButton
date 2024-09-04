@@ -137,7 +137,7 @@ private extension GestureButton {
     ) -> some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { handleDrag($0) }
-            .onEnded() { handleDragEnded($0, in: geo) }
+            .onEnded { handleDragEnded($0, in: geo) }
     }
     
     var gestureView: some View {
