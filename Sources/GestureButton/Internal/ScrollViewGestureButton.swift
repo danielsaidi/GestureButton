@@ -10,8 +10,10 @@
 import SwiftUI
 
 /// This button can be used to trigger gesture-based actions
-/// in a way that works in a `ScrollView` before iOS 18. The
-/// view is no longer needed from iOS 18.
+/// in a way that works in a `ScrollView` before iOS 18.
+///
+/// This view is no longer needed from iOS 18, and will thus
+/// be in this unpolished state until it can be removed.
 struct ScrollViewGestureButton<Label: View>: View {
 
     init(
@@ -51,9 +53,9 @@ struct ScrollViewGestureButton<Label: View>: View {
         ))
     }
 
-    public typealias Action = () -> Void
-    public typealias DragAction = (DragGesture.Value) -> Void
-    public typealias LabelBuilder = (_ isPressed: Bool) -> Label
+    typealias Action = () -> Void
+    typealias DragAction = (DragGesture.Value) -> Void
+    typealias LabelBuilder = (_ isPressed: Bool) -> Label
 
     var isPressedBinding: Binding<Bool>
 
@@ -66,7 +68,7 @@ struct ScrollViewGestureButton<Label: View>: View {
     @State
     private var isPressedByGesture = false
 
-    public var body: some View {
+    var body: some View {
         Button(action: config.releaseInsideAction) {
             config.label(isPressed)
                 .withDragGestureActions(
@@ -145,7 +147,7 @@ extension ScrollViewGestureButton {
         @State
         var longPressDate = Date()
 
-        public func makeBody(configuration: Configuration) -> some View {
+        func makeBody(configuration: Configuration) -> some View {
             configuration.label
                 .onChange(of: configuration.isPressed) { isPressed in
                     longPressDate = Date()
