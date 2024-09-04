@@ -12,8 +12,9 @@ import SwiftUI
 /// This button can be used to trigger gesture-based actions.
 ///
 /// > Important: Make sure to use ``GestureButtonScrollState``
-/// if the button lives within a `ScrollView`, otherwise the
-/// button gestures won't work.
+/// if the button is within a `ScrollView`, otherwise it may
+/// block the scroll view gestures in iOS 17 and earlier and
+/// trigger unwanted actions in iOS 18 and later.
 public struct GestureButton<Label: View>: View {
     
     /// Create a gesture button.
@@ -205,13 +206,15 @@ private extension GestureButton {
 #Preview {
     
     struct Preview: View {
-        
+
         @StateObject var state = GestureButtonPreview.State()
-        
+        @StateObject var scrollState = GestureButtonScrollState()
+
         var body: some View {
             GestureButtonPreview.Content(state: state) {
                 GestureButton(
                     isPressed: $state.isPressed,
+                    scrollState: scrollState,
                     pressAction: { state.pressCount += 1 },
                     releaseInsideAction: { state.releaseInsideCount += 1 },
                     releaseOutsideAction: { state.releaseOutsideCount += 1 },

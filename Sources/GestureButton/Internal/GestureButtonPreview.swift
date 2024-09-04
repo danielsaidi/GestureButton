@@ -24,10 +24,10 @@ struct GestureButtonPreview {
                     .padding(.horizontal)
 
                 ScrollView(.horizontal) {
-                    HStack(spacing: 50) {
+                    HStack(spacing: 25) {
                         ForEach(0...10, id: \.self) { _ in
                             content()
-                                .frame(width: 150)
+                                .frame(width: 50)
                         }
                     }
                 }
