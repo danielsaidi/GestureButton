@@ -10,7 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var log = ""
+    @FocusState var isEditing: Bool
+    
+    @State var log = ""
     
     var body: some View {
         VStack(spacing: 20) {
@@ -20,30 +22,51 @@ struct ContentView: View {
             }
             
             VStack(alignment: .leading, spacing: 0) {
-                buttonStackTitle("ScrollView:")
+                buttonStackTitle("In ScrollView:")
                 ScrollView(.horizontal, showsIndicators: true) {
-                    buttonStack(inScrollView: true)
+                    buttonStack(isInScrollView: true)
                 }
+                .scrollClipDisabled()
             }
             
-            TextField("", text: $log, axis: .vertical)
-                .lineLimit(10, reservesSpace: true)
-                .clipShape(.rect(cornerRadius: 10))
-                .border(.gray)
-                .padding()
+            logSection
+        }
+        .task {
+            isEditing = true
         }
     }
 }
 
 private extension ContentView {
     
+    @ViewBuilder
+    var logSection: some View {
+        VStack(alignment: .leading) {
+            TextField("", text: $log, axis: .vertical)
+                .lineLimit(10, reservesSpace: true)
+                .textFieldStyle(.roundedBorder)
+                .focused($isEditing)
+            
+            Text("You have to manually scroll the text to the bottom once to make it auto-scroll as you interact with the buttons.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding()
+        
+        Button("Clear log") {
+            log = ""
+        }
+        .buttonStyle(.borderedProminent)
+    }
+    
     func buttonStack(
         count: Int = 50,
-        inScrollView: Bool = false
+        isInScrollView: Bool = false
     ) -> some View {
-        HStack(spacing: 50) {
+        HStack(spacing: 25) {
             ForEach(0..<count, id: \.self) { _ in
-                button(inScrollView: inScrollView)
+                button(isInScrollView: isInScrollView)
             }
         }
         .padding(.horizontal)
@@ -58,10 +81,10 @@ private extension ContentView {
     }
     
     func button(
-        inScrollView: Bool
+        isInScrollView: Bool
     ) -> some View {
         GestureButton(
-            isInScrollView: inScrollView,
+            isInScrollView: isInScrollView,
             pressAction: { log("Pressed") },
             releaseInsideAction: { log("Release: Inside") },
             releaseOutsideAction: { log("Release: Outside") },
@@ -69,15 +92,15 @@ private extension ContentView {
             doubleTapAction: { log("Double Tap") },
             repeatAction: { log("Repeat") },
             dragStartAction: { logDragValue("Start", $0) },
-            // dragAction: { logDragValue("Move", $0) },
+            // dragAction: { logDragValue("Move", $0) },    // Will generate a lot of logs
             dragEndAction: { logDragValue("End", $0) },
             endAction: { log("Ended") }
         ) { isPressed in
-            Color.clear
-                .overlay(buttonColor(isPressed))
-                .clipShape(.rect(cornerRadius: 5))
+            Button("Gesture Button") {}
+                .tint(buttonColor(isPressed))
+                .buttonStyle(.borderedProminent)
+                .controlSize(.extraLarge)
                 .shadow(radius: 1, y: 1)
-                .frame(width: inScrollView ? 100 : nil)
         }
     }
     
@@ -86,11 +109,11 @@ private extension ContentView {
     }
     
     func log(_ text: String) {
-        log = text + "\n" + log
+        log = log + text + "\n"
     }
     
     func logDragValue(_ event: String, _ value: DragGesture.Value) {
-        log("Drag \(event): \(value.location.x) \(value.location.y)")
+        log("Drag \(event): \(value.location.x.rounded()) \(value.location.y.rounded())")
     }
 }
 

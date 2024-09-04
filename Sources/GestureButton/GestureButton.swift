@@ -20,8 +20,8 @@ public struct GestureButton<Label: View>: View {
     /// Create a gesture button.
     ///
     /// - Parameters:
-    ///   - isInScrollView: Whether this button is in a scroll view, by default `false`.
     ///   - isPressed: A custom, optional binding to track pressed state, if any.
+    ///   - scrollState: The scroll state to use, if any.
     ///   - pressAction: The action to trigger when the button is pressed, if any.
     ///   - cancelDelay: The time it takes for a cancelled press to cancel itself, by default `3.0` seconds.
     ///   - releaseInsideAction: The action to trigger when the button is released inside, if any.
@@ -40,7 +40,7 @@ public struct GestureButton<Label: View>: View {
     ///   - label: The button label.
     public init(
         isPressed: Binding<Bool>? = nil,
-        isInScrollView: Bool = false,
+        scrollState: GestureButtonScrollState? = nil,
         pressAction: Action? = nil,
         cancelDelay: TimeInterval? = nil,
         releaseInsideAction: Action? = nil,
@@ -76,7 +76,8 @@ public struct GestureButton<Label: View>: View {
             dragEndAction: dragEndAction,
             endAction: endAction
         ))
-        self.isInScrollView = isInScrollView
+        self.isInScrollView = scrollState != nil
+        self._scrollState = .init(wrappedValue: scrollState ?? .init())
         self.label = label
     }
 
@@ -84,8 +85,11 @@ public struct GestureButton<Label: View>: View {
     public typealias DragAction = (DragGesture.Value) -> Void
     public typealias LabelBuilder = (_ isPressed: Bool) -> Label
     
-    @StateObject 
+    @StateObject
     private var state: GestureButtonState
+    
+    @StateObject
+    private var scrollState: GestureButtonScrollState
     
     private let isInScrollView: Bool
     private let label: LabelBuilder
@@ -94,6 +98,9 @@ public struct GestureButton<Label: View>: View {
         if #available(iOS 18.0, macOS 15.0, watchOS 11.0, *) {
             content
         } else if isInScrollView {
+            /// The `simultaneousGesture` below doesn't work
+            /// in iOS 17 and `ScrollViewGestureButton` does
+            /// only work in iOS 17 and earlier.
             ScrollViewGestureButton(
                 isPressed: $state.isPressed,
                 pressAction: state.pressAction,
