@@ -26,13 +26,14 @@ struct ContentView: View {
                     ScrollView(.horizontal, showsIndicators: true) {
                         buttonStack(inScrollView: true)
                     }
+                    .scrollGestureState(scrollState) // <-- OBS!
                 }
                 logSection
             }
+            .scrollDisabled(true)
         }
         .navigationTitle("GestureButton Demo")
         .navigationBarTitleDisplayMode(.inline)
-        .scrollGestureState(scrollState)
         .task { isEditing = true }
     }
 }
@@ -46,13 +47,13 @@ private extension ContentView {
         HStack(spacing: 20) {
             ForEach(0..<count, id: \.self) { _ in
                 GestureButton(
-                    scrollState: inScrollView ? scrollState : nil,
+                    scrollState: inScrollView ? scrollState : nil, // <-- OBS!
                     pressAction: { log("Pressed") },
                     releaseInsideAction: { log("Release: Inside") },
                     releaseOutsideAction: { log("Release: Outside") },
                     longPressAction: { log("Long Press") },
                     doubleTapAction: { log("Double Tap") },
-                    repeatAction: { log("Repeat") },
+                    // repeatAction: { log("Repeat") },             // Will generate a lot of logs
                     dragStartAction: { logDragValue("Start", $0) },
                     // dragAction: { logDragValue("Move", $0) },    // Will generate a lot of logs
                     dragEndAction: { logDragValue("End", $0) },

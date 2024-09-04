@@ -88,7 +88,7 @@ public struct GestureButton<Label: View>: View {
     @StateObject
     private var state: GestureButtonState
     
-    @StateObject
+    @ObservedObject
     private var scrollState: GestureButtonScrollState
     
     private let isInScrollView: Bool
@@ -165,6 +165,7 @@ private extension GestureButton {
         _ value: DragGesture.Value
     ) {
         if scrollState.isScrolling { return }
+        if state.gestureWasStarted { return }
         state.gestureWasStarted = true
         setScrollGestureDisabledState(true)
         state.lastGestureValue = value
