@@ -49,7 +49,11 @@ public extension View {
             self
         }
 #else
-    self
+    if #available(iOS 16.0, macOS 13.0, watchOS 9.0, *) {
+        self.scrollDisabled(state.isScrollGestureDisabled)
+    } else {
+        self
+    }
 #endif
     }
 }

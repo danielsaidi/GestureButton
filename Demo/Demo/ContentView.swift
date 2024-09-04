@@ -18,19 +18,27 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                Section("Plain Buttons") {
+            VStack(alignment: .leading, spacing: 15) {
+                VStack(alignment: .leading) {
+                    Text("Plain Buttons")
                     buttonStack(count: 3)
                 }
-                Section("ScrollView Buttons") {
+                .padding(.horizontal)
+
+                VStack(alignment: .leading) {
+                    Text("ScrollView Buttons")
+                        .padding(.horizontal)
                     ScrollView(.horizontal, showsIndicators: true) {
                         buttonStack(inScrollView: true)
+                            .padding(.horizontal)
                     }
+                    .scrollClipDisabled()
                     .scrollGestureState(scrollState) // <-- OBS!
                 }
+
                 logSection
+                    .padding(.horizontal)
             }
-            .scrollDisabled(true)
         }
         .navigationTitle("GestureButton Demo")
         .navigationBarTitleDisplayMode(.inline)
@@ -68,21 +76,24 @@ private extension ContentView {
             }
         }
     }
-    
+
     func buttonColor(_ isPressed: Bool) -> AnyGradient {
         isPressed ? Color.green.gradient : Color.accentColor.gradient
     }
 
     @ViewBuilder
     var logSection: some View {
-        TextField("", text: $log, axis: .vertical)
-            .lineLimit(5, reservesSpace: true)
-            .focused($isEditing)
+        VStack {
+            TextField("", text: $log, axis: .vertical)
+                .focused($isEditing)
+                .lineLimit(5, reservesSpace: true)
 
-        Button("Clear log") {
-            log = ""
+            Button("Clear log") {
+                log = ""
+            }
         }
         .buttonStyle(.borderedProminent)
+        .textFieldStyle(.roundedBorder)
     }
 }
 
