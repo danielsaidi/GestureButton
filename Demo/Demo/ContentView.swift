@@ -62,9 +62,9 @@ private extension ContentView {
                     longPressAction: { log("Long Press") },
                     doubleTapAction: { log("Double Tap") },
                     // repeatAction: { log("Repeat") },             // Will generate a lot of logs
-                    dragStartAction: { logDragValue("Start", $0) },
+                    // dragStartAction: { logDragValue("Start", $0) },
                     // dragAction: { logDragValue("Move", $0) },    // Will generate a lot of logs
-                    dragEndAction: { logDragValue("End", $0) },
+                    // dragEndAction: { logDragValue("End", $0) },
                     endAction: { log("Ended") }
                 ) { isPressed in
                     Button("Button") {}

@@ -60,22 +60,24 @@ public struct GestureButton<Label: View>: View {
     ) {
         self._state = .init(wrappedValue: .init(
             isPressed: isPressed,
-            pressAction: pressAction,
             cancelDelay: cancelDelay,
-            releaseInsideAction: releaseInsideAction,
-            releaseOutsideAction: releaseOutsideAction,
             longPressDelay: longPressDelay,
-            longPressAction: longPressAction,
             doubleTapTimeout: doubleTapTimeout,
-            doubleTapAction: doubleTapAction,
             repeatDelay: repeatDelay,
-            repeatTimer: repeatTimer,
-            repeatAction: repeatAction,
-            dragStartAction: dragStartAction,
-            dragAction: dragAction,
-            dragEndAction: dragEndAction,
-            endAction: endAction
+            repeatTimer: repeatTimer
         ))
+
+        self.pressAction = pressAction
+        self.releaseInsideAction = releaseInsideAction
+        self.releaseOutsideAction = releaseOutsideAction
+        self.longPressAction = longPressAction
+        self.doubleTapAction = doubleTapAction
+        self.repeatAction = repeatAction
+        self.dragStartAction = dragStartAction
+        self.dragAction = dragAction
+        self.dragEndAction = dragEndAction
+        self.endAction = endAction
+
         self.isInScrollView = scrollState != nil
         self._scrollState = .init(wrappedValue: scrollState ?? .init())
         self.label = label
@@ -85,12 +87,23 @@ public struct GestureButton<Label: View>: View {
     public typealias DragAction = (DragGesture.Value) -> Void
     public typealias LabelBuilder = (_ isPressed: Bool) -> Label
     
+    private let pressAction: Action?
+    private let releaseInsideAction: Action?
+    private let releaseOutsideAction: Action?
+    private let longPressAction: Action?
+    private let doubleTapAction: Action?
+    private let repeatAction: Action?
+    private let dragStartAction: DragAction?
+    private let dragAction: DragAction?
+    private let dragEndAction: DragAction?
+    private let endAction: Action?
+
     @StateObject
     private var state: GestureButtonState
-    
+
     @ObservedObject
     private var scrollState: GestureButtonScrollState
-    
+
     private let isInScrollView: Bool
     private let label: LabelBuilder
     
@@ -103,18 +116,18 @@ public struct GestureButton<Label: View>: View {
             /// only work in iOS 17 and earlier.
             ScrollViewGestureButton(
                 isPressed: $state.isPressed,
-                pressAction: state.pressAction,
-                releaseInsideAction: state.releaseInsideAction,
-                releaseOutsideAction: state.releaseOutsideAction,
+                pressAction: pressAction,
+                releaseInsideAction: releaseInsideAction,
+                releaseOutsideAction: releaseOutsideAction,
                 longPressDelay: state.longPressDelay,
-                longPressAction: state.longPressAction,
+                longPressAction: longPressAction,
                 doubleTapTimeout: state.doubleTapTimeout,
-                doubleTapAction: state.doubleTapAction,
-                repeatAction: state.repeatAction,
-                dragStartAction: state.dragStartAction,
-                dragAction: state.dragAction,
-                dragEndAction: state.dragEndAction,
-                endAction: state.endAction,
+                doubleTapAction: doubleTapAction,
+                repeatAction: repeatAction,
+                dragStartAction: dragStartAction,
+                dragAction: dragAction,
+                dragEndAction: dragEndAction,
+                endAction: endAction,
                 label: label
             )
         } else {
@@ -164,19 +177,18 @@ private extension GestureButton {
     func handleDragWithState(
         _ value: DragGesture.Value
     ) {
+        state.lastGestureValue = value
         if scrollState.isScrolling { return }
+        tryHandleDrag(value)
         if state.gestureWasStarted { return }
         state.gestureWasStarted = true
         setScrollGestureDisabledState(true)
-        state.lastGestureValue = value
-        state.tryHandlePress(value)
-        state.tryHandleDrag(value)
+        tryHandlePress(value)
     }
     
     func handleDragEnded(_ value: DragGesture.Value, in geo: GeometryProxy) {
-        guard state.gestureWasStarted else { return }
         if isInScrollView {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 handleDragEndedWithState(value, in: geo)
             }
         } else {
@@ -191,7 +203,7 @@ private extension GestureButton {
         defer { resetGestureWasStarted() }
         guard state.gestureWasStarted else { return }
         setScrollGestureDisabledState(false)
-        state.tryHandleRelease(value, in: geo)
+        tryHandleRelease(value, in: geo)
     }
     
     func resetGestureWasStarted() {
@@ -201,6 +213,126 @@ private extension GestureButton {
     func setScrollGestureDisabledState(_ new: Bool) {
         if scrollState.isScrollGestureDisabled == new { return }
         scrollState.isScrollGestureDisabled = new
+    }
+}
+
+private extension GestureButton {
+
+    /// We should always reset the state when a gesture ends.
+    func reset() {
+        state.isPressed = false
+        state.longPressDate = Date()
+        state.repeatDate = Date()
+        tryStopRepeatTimer()
+    }
+
+    /// Try to handle any new drag gestures as a press event.
+    func tryHandlePress(_ value: DragGesture.Value) {
+        if state.isPressed { return }
+        state.isPressed = true
+        pressAction?()
+        dragStartAction?(value)
+        tryTriggerCancelAfterDelay()
+        tryTriggerLongPressAfterDelay()
+        tryTriggerRepeatAfterDelay()
+    }
+
+    /// Try to handle any new drag gestures as a press event.
+    func tryHandleDrag(_ value: DragGesture.Value) {
+        guard state.isPressed else { return }
+        dragAction?(value)
+    }
+
+    /// Try to handle drag end gestures as a release event.
+    ///
+    /// This function will trigger several actions, based on
+    /// how the gesture is ended. It will always trigger the
+    /// drag end and end actions, then either of the release
+    /// inside or outside actions.
+    func tryHandleRelease(_ value: DragGesture.Value, in geo: GeometryProxy) {
+        let shouldTrigger = state.isPressed
+        reset()
+        guard shouldTrigger else { return }
+        state.releaseDate = tryTriggerDoubleTap() ? .distantPast : Date()
+        dragEndAction?(value)
+        if geo.contains(value.location) {
+            releaseInsideAction?()
+        } else {
+            releaseOutsideAction?()
+        }
+        endAction?()
+    }
+
+    /// This function tries to fix an iOS bug, where buttons
+    /// may not always receive a gesture end event. This can
+    /// for instance happen when the button is near a scroll
+    /// view and is accidentally touched when a user scrolls.
+    /// The function checks if the original gesture is still
+    /// the last gesture when the cancel delay triggers, and
+    /// will if so cancel the gesture. Since this will cause
+    /// completely still gestures to be seen as accidentally
+    /// triggered, this function can yield incorrect results
+    /// and should be replaced by a proper bug fix.
+    func tryTriggerCancelAfterDelay() {
+        let value = state.lastGestureValue
+        let delay = state.cancelDelay
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            guard state.lastGestureValue?.location == value?.location else { return }
+            self.reset()
+            self.endAction?()
+        }
+    }
+
+    /// This function tries to trigger the double tap action
+    /// if the current date is within the double tap timeout
+    /// since the last release.
+    func tryTriggerDoubleTap() -> Bool {
+        let interval = Date().timeIntervalSince(state.releaseDate)
+        let isDoubleTap = interval < state.doubleTapTimeout
+        if isDoubleTap { doubleTapAction?() }
+        return isDoubleTap
+    }
+
+    /// This function tries to trigger the long press action
+    /// after the specified long press delay.
+    func tryTriggerLongPressAfterDelay() {
+        guard let action = longPressAction else { return }
+        let date = Date()
+        state.longPressDate = date
+        let delay = state.longPressDelay
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            if state.isRemoved { return }
+            guard state.longPressDate == date else { return }
+            action()
+        }
+    }
+
+    /// This function tries to start a repeat action trigger
+    /// timer after repeat delay.
+    func tryTriggerRepeatAfterDelay() {
+        let date = Date()
+        state.repeatDate = date
+        let delay = state.repeatDelay
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            if state.isRemoved { return }
+            guard state.repeatDate == date else { return }
+            self.tryStartRepeatTimer()
+        }
+    }
+
+    /// Try to start the repeat timer.
+    func tryStartRepeatTimer() {
+        guard let action = repeatAction else { return }
+        if state.repeatTimer.isActive { return }
+        state.repeatTimer.start {
+            action()
+        }
+    }
+
+    /// Try to stop the repeat timer.
+    func tryStopRepeatTimer() {
+        guard state.repeatTimer.isActive else { return }
+        state.repeatTimer.stop()
     }
 }
 
