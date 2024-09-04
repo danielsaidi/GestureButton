@@ -14,6 +14,8 @@ struct ContentView: View {
     
     @State var log = ""
     
+    @StateObject var scrollGestureState = GestureButtonScrollState()
+    
     var body: some View {
         VStack(spacing: 20) {
             VStack(alignment: .leading, spacing: 0) {
@@ -26,14 +28,12 @@ struct ContentView: View {
                 ScrollView(.horizontal, showsIndicators: true) {
                     buttonStack(isInScrollView: true)
                 }
-                .scrollClipDisabled()
             }
             
             logSection
         }
-        .task {
-            isEditing = true
-        }
+        .scrollGestureState(scrollGestureState)
+        .task { isEditing = true }
     }
 }
 
@@ -84,7 +84,7 @@ private extension ContentView {
         isInScrollView: Bool
     ) -> some View {
         GestureButton(
-            isInScrollView: isInScrollView,
+            scrollState: isInScrollView ? scrollGestureState: nil,
             pressAction: { log("Pressed") },
             releaseInsideAction: { log("Release: Inside") },
             releaseOutsideAction: { log("Release: Outside") },

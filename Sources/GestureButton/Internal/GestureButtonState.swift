@@ -73,6 +73,7 @@ class GestureButtonState: ObservableObject {
         didSet { isPressedBinding.wrappedValue = isPressed }
     }
     
+    var gestureWasStarted = false
     var isPressedBinding: Binding<Bool>
     var isRemoved = false
     var lastGestureValue: DragGesture.Value?

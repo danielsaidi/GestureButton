@@ -11,10 +11,9 @@ import SwiftUI
 
 /// This button can be used to trigger gesture-based actions.
 ///
-/// > Important: In iOS 17 and earlier, make sure to set the
-/// `isInScrollView` parameter to `true` if the button lives
-/// inside a `ScrollView`, otherwise the gestures won't work.
-/// This is not needed in iOS 18 and later.
+/// > Important: Make sure to use ``GestureButtonScrollState``
+/// if the button lives within a `ScrollView`, otherwise the
+/// button gestures won't work.
 public struct GestureButton<Label: View>: View {
     
     /// Create a gesture button.
@@ -136,14 +135,8 @@ private extension GestureButton {
         for geo: GeometryProxy
     ) -> some Gesture {
         DragGesture(minimumDistance: 0)
-            .onChanged { value in
-                state.lastGestureValue = value
-                state.tryHandlePress(value)
-                state.tryHandleDrag(value)
-            }
-            .onEnded { value in
-                state.tryHandleRelease(value, in: geo)
-            }
+            .onChanged { handleDrag($0) }
+            .onEnded() { handleDragEnded($0, in: geo) }
     }
     
     var gestureView: some View {
@@ -152,6 +145,60 @@ private extension GestureButton {
                 .contentShape(Rectangle())
                 .simultaneousGesture(gesture(for: geo))
         }
+    }
+    
+    func handleDrag(
+        _ value: DragGesture.Value
+    ) {
+        if scrollState.isScrolling { return }
+        if isInScrollView {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                handleDragWithState(value)
+            }
+        } else {
+            handleDragWithState(value)
+        }
+    }
+    
+    func handleDragWithState(
+        _ value: DragGesture.Value
+    ) {
+        if scrollState.isScrolling { return }
+        state.gestureWasStarted = true
+        setScrollGestureDisabledState(true)
+        state.lastGestureValue = value
+        state.tryHandlePress(value)
+        state.tryHandleDrag(value)
+    }
+    
+    func handleDragEnded(_ value: DragGesture.Value, in geo: GeometryProxy) {
+        guard state.gestureWasStarted else { return }
+        if isInScrollView {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                handleDragEndedWithState(value, in: geo)
+            }
+        } else {
+            handleDragEndedWithState(value, in: geo)
+        }
+    }
+    
+    func handleDragEndedWithState(
+        _ value: DragGesture.Value,
+        in geo: GeometryProxy
+    ) {
+        defer { resetGestureWasStarted() }
+        guard state.gestureWasStarted else { return }
+        setScrollGestureDisabledState(false)
+        state.tryHandleRelease(value, in: geo)
+    }
+    
+    func resetGestureWasStarted() {
+        state.gestureWasStarted = false
+    }
+    
+    func setScrollGestureDisabledState(_ new: Bool) {
+        if scrollState.isScrollGestureDisabled == new { return }
+        scrollState.isScrollGestureDisabled = new
     }
 }
 
