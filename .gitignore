@@ -8,3 +8,4 @@ DerivedData/
 .netrc
 
 Fastlane/report.xml
+Fastlane/README.md
