@@ -26,14 +26,14 @@ platform :ios do
 
 
   # Test ==================
-  
+
+  lane :test do
+    test_ios(destination: "platform=iOS Simulator,name=iPhone 16")
+  end
+
   lane :test_ios do |options|
     destination = options[:destination]
     sh("cd .. && xcodebuild test -scheme " + name + " -derivedDataPath .build -destination '" + destination + "' -enableCodeCoverage YES;")
-  end
-  
-  lane :test_all do
-    test_ios(destination: "platform=iOS Simulator,name=iPhone 16")
   end
 
 
@@ -57,7 +57,7 @@ platform :ios do
     ensure_git_branch(branch: main_branch)
     swiftlint(strict: true)
     build_all
-    test_all
+    test
   end
 
 end
