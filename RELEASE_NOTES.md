@@ -1,6 +1,12 @@
 # Release Notes
 
 
+## 0.1.1
+
+This version adds support for visionOS.
+
+
+
 ## 0.1
 
 This version adds a `GestureButtonScrollState` value to make scroll view buttons behave better.
