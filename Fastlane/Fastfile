@@ -33,7 +33,7 @@ platform :ios do
   end
   
   lane :test_all do
-    test_ios(destination: "platform=iOS Simulator,name=iPhone 15,OS=17.2")
+    test_ios(destination: "platform=iOS Simulator,name=iPhone 16")
   end
 
 
