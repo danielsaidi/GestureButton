@@ -11,17 +11,17 @@ platform :ios do
 
   # Build ==================
   
-  lane :build do |options|
+  lane :build do
+    build_platform(platform: "iOS")
+    build_platform(platform: "OS X")
+    build_platform(platform: "tvOS")
+    build_platform(platform: "watchOS")
+    build_platform(platform: "xrOS")
+  end
+
+  lane :build_platform do |options|
     platform = options[:platform]
     sh("cd .. && xcodebuild -scheme " + name + " -derivedDataPath .build -destination 'generic/platform=" + platform + "';")
-  end
-  
-  lane :build_all do
-    build(platform: "iOS")
-    build(platform: "OS X")
-    build(platform: "tvOS")
-    build(platform: "watchOS")
-    build(platform: "xrOS")
   end
 
 
@@ -56,7 +56,7 @@ platform :ios do
     ensure_git_status_clean
     ensure_git_branch(branch: main_branch)
     swiftlint(strict: true)
-    build_all
+    build
     test
   end
 
