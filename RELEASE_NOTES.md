@@ -1,6 +1,12 @@
 # Release Notes
 
 
+## 0.1.2
+
+This version makes scroll gesture state available for tvOS, although it does nothing.
+
+
+
 ## 0.1.1
 
 This version adds support for visionOS.
