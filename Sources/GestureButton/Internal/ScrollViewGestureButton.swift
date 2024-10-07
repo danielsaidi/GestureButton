@@ -119,10 +119,16 @@ extension ScrollViewGestureButton {
         let endAction: Action
         let label: LabelBuilder
 
+        func handleRepeatAction() {
+            guard let repeatAction else { return }
+            repeatAction()
+        }
+
         func tryStartRepeatTimer() {
             if repeatTimer.isActive { return }
-            guard let action = repeatAction else { return }
-            repeatTimer.start { action() }
+            repeatTimer.start {
+                Task { await handleRepeatAction() }
+            }
         }
 
         func tryStopRepeatTimer() {

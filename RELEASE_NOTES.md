@@ -1,6 +1,10 @@
 # Release Notes
 
 
+## 0.2
+
+This version makes GestureButton use Swift 6 and strict concurrency.
+
 ## 0.1.2
 
 This version makes scroll gesture state available for tvOS, although it does nothing.
