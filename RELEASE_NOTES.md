@@ -5,6 +5,10 @@
 
 This version makes GestureButton use Swift 6 and strict concurrency.
 
+It also fixes a bug where the scroll gesture button sometimes didn't trigger the repeat action in iOS 17 and earlier.  
+
+
+
 ## 0.1.2
 
 This version makes scroll gesture state available for tvOS, although it does nothing.
