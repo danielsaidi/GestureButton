@@ -1,10 +1,10 @@
 # ``GestureButton``
 
-GestureButton is a SwiftUI button that can trigger many different gesture actions.
+GestureButton is a SwiftUI button that can trigger many different gesture-specific actions with a single gesture.
 
 ![GestureButton Logo](Logo_rounded)
 
-You can use a ``GestureButton/GestureButton`` just like a regular `Button` and specify different actions for different gestures that you want to handle:
+You can use a ``GestureButton/GestureButton`` just like a regular `Button`, and can define different actions for different gestures:
 
 ```swift
 struct ContentView: View {
@@ -31,23 +31,27 @@ struct ContentView: View {
 }
 ```
 
-You can customize various delays and timeouts to change how the button behaves, for instance the max time between two taps for the taps to count as a double-tap. You can use any `View` as button label.
+You can pass in various delays and timeouts to change how the button behaves, e.g. the max time between two taps for the taps to count as a double-tap. You can use any `View` as the button label.
 
 
 
-## How to use GestureButton within a ScrollView
+## Installation
 
-A ``GestureButton`` works within a `ScrollView` as well, but need some extra handling to behave well.
+GestureButton can be installed with the Swift Package Manager:
 
-### iOS 17
+```
+https://github.com/danielsaidi/GestureButton.git
+```
 
-In iOS 17 and earlier, you have to pass in a ``GestureButtonScrollState`` instance into the ``GestureButton`` initializer, for the button to not block the scroll gesture.
 
-### iOS 18
 
-In iOS 18 and later, you don't have to use a ``GestureButtonScrollState`` if you're fine with the scroll view and the button detecting all gestures simultaneously. Note that this may however trigger undesired actions when the user scrolls the scroll view. 
+## Getting Started
 
-To make the scroll view block button gestures while scrolling, and for button gestures to stop the scroll view from scrolling, you can use a ``GestureButtonScrollState`` and apply it to both the scroll view and to all gesture buttons within:
+A ``GestureButton`` can be used like a regular button, as shown above, but needs some extra handling when it's used in a scroll view.
+
+In iOS 17 and earlier, you have to pass in a ``GestureButtonScrollState`` into the ``GestureButton`` initializer, for the button to not block the scroll gesture.
+
+In iOS 18 and later, you must pass in a ``GestureButtonScrollState`` and apply it to the scroll view as well:
 
 ```swift
 struct ContentView: View {
@@ -69,32 +73,7 @@ struct ContentView: View {
 }
 ```
 
-Future versions of this library should aim to streamline this setup, to only require the view modifier. 
-
-
-
-## Installation
-
-GestureButton can be installed with the Swift Package Manager:
-
-```
-https://github.com/danielsaidi/GestureButton.git
-```
-
-GestureButton supports iOS, iPadOS, macOS, watchOS, and visionOS.
-
-
-
-## How to use a GestureButton
-
-A ``GestureButton`` can be used just like a regular `Button`
-
-
-
-## How to use a GestureButton in a ScrollView
-
-A ``GestureButton`` can be used within scroll views, but 
-
+A future version of this library should aim to streamline this setup to only require the modifier. The gesture button should then access the state as an environment value.
 
 
 
