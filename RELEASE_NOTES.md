@@ -1,6 +1,14 @@
 # Release Notes
 
 
+## 0.3
+
+This version makes the GestureButton `.cancelDelay` opt-in.
+
+If no delay is provided, the button will not cancel its gestures.
+
+
+
 ## 0.2
 
 This version makes GestureButton use Swift 6 and strict concurrency.
