@@ -1,18 +1,17 @@
 <p align="center">
-    <img src ="Resources/Logo_rounded.png" alt="GestureButton Logo" title="GestureButton" />
+    <img src="Resources/Icon-Plain.png" alt="Project Icon" width="250" />
 </p>
 
 <p align="center">
     <img src="https://img.shields.io/github/v/release/danielsaidi/GestureButton?color=%2300550&sort=semver" alt="Version" title="Version" />
     <img src="https://img.shields.io/badge/swift-5.10-orange.svg" alt="Swift 5.10" title="Swift 5.10" />
     <img src="https://img.shields.io/badge/platform-SwiftUI-blue.svg" alt="Swift UI" title="Swift UI" />
+    <a href="https://danielsaidi.github.io/GestureButton"><img src="https://img.shields.io/badge/documentation-web-blue.svg" alt="Documentation" /></a>
     <img src="https://img.shields.io/github/license/danielsaidi/GestureButton" alt="MIT License" title="MIT License" />
-    <a href="https://twitter.com/danielsaidi"><img src="https://img.shields.io/twitter/url?label=Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fdanielsaidi" alt="Twitter: @danielsaidi" title="Twitter: @danielsaidi" /></a>
-    <a href="https://mastodon.social/@danielsaidi"><img src="https://img.shields.io/mastodon/follow/000253346?label=mastodon&style=social" alt="Mastodon: @danielsaidi@mastodon.social" title="Mastodon: @danielsaidi@mastodon.social" /></a>
 </p>
 
 
-## About GestureButton
+# GestureButton
 
 GestureButton is a SwiftUI button that can trigger many different gesture-specific actions with a single gesture.
 
@@ -60,10 +59,6 @@ https://github.com/danielsaidi/GestureButton.git
 
 A ``GestureButton`` can be used just like a regular `Button`, as shown above, but needs some extra handling when used within a `ScrollView`.
 
-In iOS 17 and earlier, you have to pass in a ``GestureButtonScrollState`` into the ``GestureButton`` initializer, for the button to not block the scroll gesture.
-
-In iOS 18 and later, you must pass in a ``GestureButtonScrollState`` and apply it to the scroll view as well:
-
 ```swift
 struct ContentView: View {
 
@@ -75,7 +70,8 @@ struct ContentView: View {
                 scrollState: scrollState,
                 pressAction: { print("Pressed") },
                 label: { isPressed in
-                    Color.yellow // You can use any button content view.
+                    isPressed ? Color.yellow : Color.gray
+                    // You can use any button content view.
                 }
             )
         }
@@ -84,7 +80,9 @@ struct ContentView: View {
 }
 ```
 
-A future version of this library should aim to streamline this setup to only require the modifier. The gesture button should then access the state as an environment value.
+In iOS 17 and earlier, you have to pass in a ``GestureButtonScrollState`` into the ``GestureButton`` initializer, for the button to not block the scroll gesture.
+
+In iOS 18 and later, you must pass in a ``GestureButtonScrollState`` and apply it to the scroll view as well.
 
 
 
@@ -96,7 +94,7 @@ The online [documentation][Documentation] has more information, articles, code e
 
 ## Demo Application
 
-The demo app lets you explore the library. To try it out, just open and run the `Demo` project.
+The `Demo` folder has a demo app that lets you explore the library and its components.
 
 
 
@@ -113,9 +111,9 @@ Your support makes it possible for me to put more work into these projects and m
 Feel free to reach out if you have questions or if you want to contribute in any way:
 
 * Website: [danielsaidi.com][Website]
-* Mastodon: [@danielsaidi@mastodon.social][Mastodon]
-* Twitter: [@danielsaidi][Twitter]
 * E-mail: [daniel.saidi@gmail.com][Email]
+* Bluesky: [@danielsaidi@bsky.social][Bluesky]
+* Mastodon: [@danielsaidi@mastodon.social][Mastodon]
 
 
 
@@ -126,9 +124,9 @@ GestureButton is available under the MIT license. See the [LICENSE][License] fil
 
 
 [Email]: mailto:daniel.saidi@gmail.com
-
 [Website]: https://danielsaidi.com
 [GitHub]: https://github.com/danielsaidi
+[Bluesky]: https://bsky.app/profile/danielsaidi.bsky.social
 [Twitter]: https://twitter.com/danielsaidi
 [Mastodon]: https://mastodon.social/@danielsaidi
 [OpenSource]: https://danielsaidi.com/opensource
