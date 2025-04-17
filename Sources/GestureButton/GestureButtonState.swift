@@ -29,13 +29,51 @@ class GestureButtonState: ObservableObject {
         didSet { isPressedBinding.wrappedValue = isPressed }
     }
     
-    var gestureWasStarted = false
+    private(set) var isDragGestureStarted = false
+    private(set) var lastDragGestureValue: DragGesture.Value?
+    private(set) var lastMaxDragDistance = -1.0
+    
     var isPressedBinding: Binding<Bool>
     var isRemoved = false
-    var lastGestureValue: DragGesture.Value?
     var longPressDate = Date()
     var releaseDate = Date()
     var repeatDate = Date()
+    
+    func startDragGesture(
+        with value: DragGesture.Value
+    ) {
+        isDragGestureStarted = true
+        lastMaxDragDistance = -1
+        updateDragGesture(with: value)
+    }
+    
+    func stopDragGesture() {
+        isDragGestureStarted = false
+    }
+    
+    func updateDragGesture(
+        with value: DragGesture.Value
+    ) {
+        lastDragGestureValue = value
+        let distance = distance(
+            from: value.startLocation,
+            to: value.location
+        )
+        guard distance > lastMaxDragDistance else { return }
+        lastMaxDragDistance = distance
+    }
+}
+
+extension GestureButtonState {
+    
+    func distance(
+        from point1: CGPoint,
+        to point2: CGPoint
+    ) -> CGFloat {
+        let xDistance = point2.x - point1.x
+        let yDistance = point2.y - point1.y
+        return sqrt(xDistance * xDistance + yDistance * yDistance)
+    }
 }
 
 extension GeometryProxy {

@@ -185,11 +185,11 @@ private extension GestureButton {
     func handleDragWithState(
         _ value: DragGesture.Value
     ) {
-        state.lastGestureValue = value
+        state.updateDragGesture(with: value)
         if scrollState.isScrolling { return }
         tryHandleDrag(value)
-        if state.gestureWasStarted { return }
-        state.gestureWasStarted = true
+        if state.isDragGestureStarted { return }
+        state.startDragGesture(with: value)
         setScrollGestureDisabledState(true)
         tryHandlePress(value)
     }
@@ -208,8 +208,8 @@ private extension GestureButton {
         _ value: DragGesture.Value,
         in geo: GeometryProxy
     ) {
-        defer { resetGestureWasStarted() }
-        guard state.gestureWasStarted else { return }
+        defer { state.stopDragGesture() }
+        guard state.isDragGestureStarted else { return }
         setScrollGestureDisabledState(false)
         tryHandleRelease(value, in: geo)
     }
@@ -224,10 +224,6 @@ private extension GestureButton {
         state.longPressDate = Date()
         state.repeatDate = Date()
         tryStopRepeatTimer()
-    }
-
-    func resetGestureWasStarted() {
-        state.gestureWasStarted = false
     }
     
     func setScrollGestureDisabledState(_ new: Bool) {
@@ -284,9 +280,10 @@ private extension GestureButton {
     /// and should be replaced by a proper bug fix.
     func tryTriggerCancelAfterDelay() {
         guard let delay = config.cancelDelay else { return }
-        let value = state.lastGestureValue
+        let value = state.lastDragGestureValue
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            guard state.lastGestureValue?.location == value?.location else { return }
+            let location = state.lastDragGestureValue?.location
+            guard location == value?.location else { return }
             self.reset()
             self.endAction?()
         }
@@ -310,6 +307,7 @@ private extension GestureButton {
         state.longPressDate = date
         DispatchQueue.main.asyncAfter(deadline: .now() + config.longPressDelay) {
             if state.isRemoved { return }
+            if state.lastMaxDragDistance > config.longPressMaxDragDistance { return }
             guard state.longPressDate == date else { return }
             action()
         }

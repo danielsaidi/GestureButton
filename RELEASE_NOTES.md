@@ -15,14 +15,17 @@ Until then, breaking changes can also happen in `minor` updates.
 
 This version replaces init parameters with a new configuration.
 
+This version also makes it possible to configure a max drag distance after which long presses will cancel.
+
 ### ✨ Features
 
 * `GestureButton` will now read configurations from the environment.
+* `GestureConfiguration` is a new gesture button configuration struct.
+* `GestureConfiguration` has a new `longPressMaxDragDistance` property.
 
 ### 🗑️ Deprecations
 
 * `GestureButton` has temporary deprecations .
-
 
 
 

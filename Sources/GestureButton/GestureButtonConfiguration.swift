@@ -15,24 +15,28 @@ public struct GestureButtonConfiguration: Codable, Equatable, Hashable, Sendable
     ///
     /// - Parameters:
     ///   - cancelDelay: The time it takes for a cancelled press to cancel, if any.
-    ///   - doubleTapTimeout: The max time between two taps for them to count as a double tap, by default `0.2` seconds.
+    ///   - doubleTapTimeout: The max time between two taps to count as a double tap, by default `0.2` seconds.
     ///   - longPressDelay: The time it takes for a press to count as a long press, by default `0.5` seconds.
+    ///   - longPressMaxDragDistance: The max drag distance for a press to trigger a long press, by default `50` points.
     ///   - repeatDelay: The time it takes for a press to start a repeating action, by default `0.5` seconds.
     public init(
         cancelDelay: TimeInterval? = nil,
         doubleTapTimeout: TimeInterval? = nil,
         longPressDelay: TimeInterval? = nil,
+        longPressMaxDragDistance: Double? = nil,
         repeatDelay: TimeInterval? = nil
     ) {
         self.cancelDelay = cancelDelay
         self.doubleTapTimeout = doubleTapTimeout ?? 0.2
         self.longPressDelay = longPressDelay ?? 0.5
+        self.longPressMaxDragDistance = longPressMaxDragDistance ?? 50
         self.repeatDelay = repeatDelay ?? 0.5
     }
 
     public let cancelDelay: TimeInterval?
     public let longPressDelay: TimeInterval
     public let doubleTapTimeout: TimeInterval
+    public let longPressMaxDragDistance: Double
     public let repeatDelay: TimeInterval
 }
 
