@@ -1,5 +1,30 @@
 # Release Notes
 
+GestureButton will honor semantic versioning after version 1.0.
+
+* Deprecations can happen at any time.
+* Deprecations should only be removed in `major` updates.
+* Breaking changes should only occur in `major` updates.
+* Breaking changes *can* occur in `minor` and `patch` updates.
+
+Until then, breaking changes can also happen in `minor` updates.
+
+
+
+## 0.4
+
+This version replaces init parameters with a new configuration.
+
+### ✨ Features
+
+* `GestureButton` will now read configurations from the environment.
+
+### 🗑️ Deprecations
+
+* `GestureButton` has temporary deprecations .
+
+
+
 
 ## 0.3
 
@@ -35,7 +60,7 @@ This version adds a `GestureButtonScrollState` value to make scroll view buttons
 
 ### ✨ Features
 
-This version adds a `GestureButtonScrollState` class.
+* This version adds a `GestureButtonScrollState` class.
 
 
 
@@ -57,4 +82,4 @@ This is the first beta release of this package.
 
 ### ✨ Features
 
-This version adds a `GestureButton` with many internal types.
+* This version adds a `GestureButton` with many internal types.
