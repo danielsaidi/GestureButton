@@ -16,25 +16,13 @@ class GestureButtonState: ObservableObject {
     /// Create a gesture button state value.
     init(
         isPressed: Binding<Bool>? = nil,
-        cancelDelay: TimeInterval? = nil,
-        longPressDelay: TimeInterval? = nil,
-        doubleTapTimeout: TimeInterval? = nil,
-        repeatDelay: TimeInterval? = nil,
         repeatTimer: GestureButtonTimer? = nil
     ) {
         self.isPressedBinding = isPressed ?? .constant(false)
-        self.cancelDelay = cancelDelay
-        self.longPressDelay = longPressDelay ?? GestureButtonDefaults.longPressDelay
-        self.doubleTapTimeout = doubleTapTimeout ?? GestureButtonDefaults.doubleTapTimeout
         self.repeatTimer = repeatTimer ?? .init()
-        self.repeatDelay = repeatDelay ?? GestureButtonDefaults.repeatDelay
     }
     
-    let cancelDelay: TimeInterval?
-    let longPressDelay: TimeInterval
-    let doubleTapTimeout: TimeInterval
     let repeatTimer: GestureButtonTimer
-    let repeatDelay: TimeInterval
 
     @Published
     var isPressed = false {

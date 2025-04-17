@@ -47,3 +47,13 @@ public extension EnvironmentValues {
     /// This value will inject a config into the environment.
     @Entry var gestureButtonConfiguration = GestureButtonConfiguration.standard
 }
+
+public extension View {
+    
+    /// Apply a gesture button config to the view hierarchy.
+    func gestureButtonConfiguration(
+        _ config: GestureButtonConfiguration
+    ) -> some View {
+        self.environment(\.gestureButtonConfiguration, config)
+    }
+}
