@@ -7,7 +7,8 @@
     <img src="https://img.shields.io/badge/swift-5.10-orange.svg" alt="Swift 5.10" title="Swift 5.10" />
     <img src="https://img.shields.io/badge/platform-SwiftUI-blue.svg" alt="Swift UI" title="Swift UI" />
     <a href="https://danielsaidi.github.io/GestureButton"><img src="https://img.shields.io/badge/documentation-web-blue.svg" alt="Documentation" /></a>
-    <img src="https://img.shields.io/github/license/danielsaidi/GestureButton" alt="MIT License" title="MIT License" />
+    <a href="https://github.com/danielsaidi/GestureButton/blob/master/LICENSE"><img src="https://img.shields.io/github/license/danielsaidi/GestureButton" alt="MIT License" /></a>
+    <a href="https://github.com/sponsors/danielsaidi"><img src="https://img.shields.io/badge/sponsor-GitHub-red.svg" alt="Sponsor my work" /></a>
 </p>
 
 
@@ -55,6 +56,12 @@ https://github.com/danielsaidi/GestureButton.git
 ```
 
 
+## Support My Work
+
+You can [become a sponsor][Sponsors] to help me dedicate more time on my various [open-source tools][OpenSource]. Every contribution, no matter the size, makes a real difference in keeping these tools free and actively developed.
+
+
+
 ## Getting Started
 
 A ``GestureButton`` can be used just like a regular `Button`, as shown above, but needs some extra handling when used within a `ScrollView`.
@@ -98,14 +105,6 @@ The `Demo` folder has a demo app that lets you explore the library and its compo
 
 
 
-## Support my work 
-
-You can [sponsor me][Sponsors] on GitHub Sponsors or [reach out][Email] for paid support, to help support my [open-source projects][OpenSource].
-
-Your support makes it possible for me to put more work into these projects and make them the best they can be.
-
-
-
 ## Contact
 
 Feel free to reach out if you have questions or if you want to contribute in any way:
@@ -126,11 +125,12 @@ GestureButton is available under the MIT license. See the [LICENSE][License] fil
 [Email]: mailto:daniel.saidi@gmail.com
 [Website]: https://danielsaidi.com
 [GitHub]: https://github.com/danielsaidi
-[Bluesky]: https://bsky.app/profile/danielsaidi.bsky.social
-[Twitter]: https://twitter.com/danielsaidi
-[Mastodon]: https://mastodon.social/@danielsaidi
 [OpenSource]: https://danielsaidi.com/opensource
 [Sponsors]: https://github.com/sponsors/danielsaidi
+
+[Bluesky]: https://bsky.app/profile/danielsaidi.bsky.social
+[Mastodon]: https://mastodon.social/@danielsaidi
+[Twitter]: https://twitter.com/danielsaidi
 
 [Documentation]: https://danielsaidi.github.io/GestureButton
 [Getting-Started]: https://danielsaidi.github.io/GestureButton/documentation/gesturebutton/getting-started

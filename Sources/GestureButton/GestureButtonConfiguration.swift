@@ -33,11 +33,11 @@ public struct GestureButtonConfiguration: Codable, Equatable, Hashable, Sendable
         self.repeatDelay = repeatDelay ?? 0.5
     }
 
-    public let cancelDelay: TimeInterval?
-    public let longPressDelay: TimeInterval
-    public let doubleTapTimeout: TimeInterval
-    public let longPressMaxDragDistance: Double
-    public let repeatDelay: TimeInterval
+    public var cancelDelay: TimeInterval?
+    public var longPressDelay: TimeInterval
+    public var doubleTapTimeout: TimeInterval
+    public var longPressMaxDragDistance: Double
+    public var repeatDelay: TimeInterval
 }
 
 public extension GestureButtonConfiguration {
