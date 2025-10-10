@@ -11,6 +11,16 @@ Until then, breaking changes can also happen in `minor` updates.
 
 
 
+## 0.4.1
+
+This version lets you customize the gesture button's accessibility traits.
+
+### ✨ Features
+
+* `GestureButton` has a new `accessibilityTraits` init argument.
+
+
+
 ## 0.4
 
 This version replaces init parameters with a new configuration.

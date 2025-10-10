@@ -40,6 +40,7 @@ public struct GestureButton<Label: View>: View {
     ///   - dragAction: The action to trigger when a drag gesture changes, if any.
     ///   - dragEndAction: The action to trigger when a drag gesture ends, if any.
     ///   - endAction: The action to trigger when a button gesture ends, if any.
+    ///   - accessibilityTraits: The accessibility traits to apply, by default `.isButton`.
     ///   - label: The button label.
     public init(
         config: GestureButtonConfiguration? = nil,
@@ -56,6 +57,7 @@ public struct GestureButton<Label: View>: View {
         dragAction: DragAction? = nil,
         dragEndAction: DragAction? = nil,
         endAction: Action? = nil,
+        accessibilityTraits: AccessibilityTraits = .isButton,
         label: @escaping LabelBuilder
     ) {
         self.initConfig = config
@@ -74,6 +76,7 @@ public struct GestureButton<Label: View>: View {
         self.dragAction = dragAction
         self.dragEndAction = dragEndAction
         self.endAction = endAction
+        self.accessibilityTraits = accessibilityTraits
 
         self.isInScrollView = scrollState != nil
         self._scrollState = .init(wrappedValue: scrollState ?? .init())
@@ -96,6 +99,7 @@ public struct GestureButton<Label: View>: View {
     private let dragAction: DragAction?
     private let dragEndAction: DragAction?
     private let endAction: Action?
+    private let accessibilityTraits: AccessibilityTraits
 
     @StateObject
     private var state: GestureButtonState
@@ -147,7 +151,7 @@ public struct GestureButton<Label: View>: View {
         label(state.isPressed)
             .overlay(gestureView)
             .onDisappear { state.isRemoved = true }
-            .accessibilityAddTraits(.isButton)
+            .accessibilityAddTraits(accessibilityTraits)
     }
 }
 
