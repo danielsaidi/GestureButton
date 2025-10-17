@@ -132,7 +132,9 @@ extension ScrollViewGestureButton {
         func tryStartRepeatTimer() {
             if repeatTimer.isActive { return }
             repeatTimer.start {
-                Task { await handleRepeatAction() }
+                Task { @MainActor in
+                    handleRepeatAction()
+                }
             }
         }
 

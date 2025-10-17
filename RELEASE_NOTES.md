@@ -10,6 +10,14 @@ GestureButton will honor semantic versioning after version 1.0.
 Until then, breaking changes can also happen in `minor` updates.
 
 
+## 0.5
+
+### 💡 Adjustments
+
+* The package now uses Swift 6.1. 
+* The demo app now targets iOS 26.
+
+
 
 ## 0.4.1
 

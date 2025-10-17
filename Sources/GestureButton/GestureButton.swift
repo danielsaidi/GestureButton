@@ -333,7 +333,9 @@ private extension GestureButton {
     func tryStartRepeatTimer() {
         if state.repeatTimer.isActive { return }
         state.repeatTimer.start {
-            Task { await handleRepeatAction() }
+            Task { @MainActor in
+                handleRepeatAction()
+            }
         }
     }
 
