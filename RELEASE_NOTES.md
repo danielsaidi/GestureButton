@@ -10,12 +10,23 @@ GestureButton will honor semantic versioning after version 1.0.
 Until then, breaking changes can also happen in `minor` updates.
 
 
+
 ## 0.5
+
+The scroll view fixes that were added for iOS 18 no longer work in iOS 26. Adding a `GestureButton` to a `ScrollView` once again blocks scrolling, even when using a scroll state.
+
+Since no attempts to solve this have worked, scroll view support has been removed in this version. Don't hesistate to reach out if you find a way to make it work again in iOS 26.
 
 ### 💡 Adjustments
 
 * The package now uses Swift 6.1. 
 * The demo app now targets iOS 26.
+
+### 💥 Breaking Changes
+
+* `GestureButtonScrollState` has been removed.
+* `GestureButtonConfiguration` must be injected with the environment.
+* `ScrollViewGestureButton` has been removed.
 
 
 

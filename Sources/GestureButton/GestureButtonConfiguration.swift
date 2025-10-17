@@ -13,6 +13,9 @@ public struct GestureButtonConfiguration: Codable, Equatable, Hashable, Sendable
     
     /// Create a gesture button configuration.
     ///
+    /// You can apply a custom button configuration with the view modifier
+    /// ``SwiftUICore/View/gestureButtonConfiguration(_:)``.
+    ///
     /// - Parameters:
     ///   - cancelDelay: The time it takes for a cancelled press to cancel, if any.
     ///   - doubleTapTimeout: The max time between two taps to count as a double tap, by default `0.2` seconds.

@@ -9,8 +9,7 @@
 #if os(iOS) || os(macOS) || os(watchOS) || os(visionOS)
 import SwiftUI
 
-/// This state is used to manage values for a gesture button,
-/// without triggering a view update.
+/// This state is used to manage button states without triggering view updates.
 class GestureButtonState: ObservableObject {
     
     /// Create a gesture button state value.
