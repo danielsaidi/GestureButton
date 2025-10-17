@@ -42,7 +42,7 @@ public extension View {
     ) -> some View {
 #if os(tvOS)
         self
-#elseif compiler(>=6)
+#else
         if #available(iOS 18.0, macOS 15.0, watchOS 11.0, visionOS 2.0, *) {
             self.scrollDisabled(state.isScrollGestureDisabled)
                 .onScrollPhaseChange { _, newPhase in
@@ -51,12 +51,6 @@ public extension View {
         } else {
             self
         }
-#else
-    if #available(iOS 16.0, macOS 13.0, watchOS 9.0, *) {
-        self.scrollDisabled(state.isScrollGestureDisabled)
-    } else {
-        self
-    }
 #endif
     }
 }
