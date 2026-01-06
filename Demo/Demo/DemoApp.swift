@@ -3,6 +3,7 @@
 //  Demo
 //
 //  Created by Daniel Saidi on 2024-09-02.
+//  Copyright © 2026 Daniel Saidi. All rights reserved.
 //
 
 import SwiftUI
