@@ -9,7 +9,8 @@
 #if os(iOS) || os(macOS) || os(watchOS) || os(visionOS)
 import SwiftUI
 
-/// This state is used to manage button states without triggering view updates.
+/// This type is used internally to manage button state with
+/// no view redraw triggers.
 class GestureButtonState: ObservableObject {
     
     /// Create a gesture button state value.

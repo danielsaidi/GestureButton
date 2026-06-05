@@ -13,7 +13,7 @@ public struct GestureButtonConfiguration: Codable, Equatable, Hashable, Sendable
     
     /// Create a gesture button configuration.
     ///
-    /// You can apply a custom button configuration with the view modifier
+    /// You can apply a custom config with the view modifier
     /// ``SwiftUICore/View/gestureButtonConfiguration(_:)``.
     ///
     /// - Parameters:

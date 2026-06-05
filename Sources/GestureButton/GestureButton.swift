@@ -11,9 +11,10 @@ import SwiftUI
 
 /// This button can be used to trigger gesture-based actions.
 ///
-/// A `cancelDelay` can be specified to make a button cancel its gesture if no
-/// values are registered during the delay. This can be used to avoid a button from
-/// getting stuck in a pressed state.
+/// A `cancelDelay` can be specified to make a button cancel
+/// its gesture if no values are registered during the delay.
+/// This can be used to avoid a button from getting stuck in
+/// a pressed state, if a gesture is cancelled by the system.
 public struct GestureButton<Label: View>: View {
     
     /// Create a gesture button.

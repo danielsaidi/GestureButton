@@ -8,7 +8,8 @@
 
 import Foundation
 
-/// This class can be used to repeat an action when a button is kept pressed.
+/// This class can be used to repeat an action when a button
+/// is kept pressed.
 public class GestureButtonTimer: ObservableObject {
 
     /// Create a custom gesture button timer.
