@@ -11,6 +11,21 @@ Until then, breaking changes can also happen in `minor` updates.
 
 
 
+## 0.5.1
+
+This version reduces redundant gesture button view updates.
+
+### ✨ Features
+
+* `GestureButton` has a new `updatesLabelWithPressedState` init argument.
+
+### 💡 Adjustments
+
+* Gesture buttons no longer publish unchanged pressed state values.
+* On iOS 16+, macOS 13+, and watchOS 9+, gesture buttons measure their bounds with `onGeometryChange` instead of a transparent `GeometryReader` overlay.
+
+
+
 ## 0.5
 
 The scroll view fixes that were added for iOS 18 no longer work in iOS 26. Adding a `GestureButton` to a `ScrollView` once again blocks scrolling, even when using a scroll state.
