@@ -18,11 +18,12 @@ This version adds more performance optimizations.
 ### ✨ Features 
 
 * `GestureButtonState` has a new reset function.
-* `GestureButton` no longer captures itself in its delayed operations.
 
 ### 💡 Adjustments
 
+* `GestureButton` no longer captures itself in its delayed operations.
 * `GestureButton` no longer starts a repeat timer if there's no repeat action.  
+* `GestureButton` no longer stores the full drag gesture value on every gesture change.
 
 
 

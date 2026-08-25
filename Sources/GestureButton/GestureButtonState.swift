@@ -28,7 +28,7 @@ class GestureButtonState: ObservableObject {
     private(set) var isPressed = false
 
     private(set) var isDragGestureStarted = false
-    private(set) var lastDragGestureValue: DragGesture.Value?
+    private(set) var lastDragGestureLocation: CGPoint?
     private(set) var lastMaxDragDistance = -1.0
     var buttonGeometry = GestureButtonGeometry()
 
@@ -80,7 +80,7 @@ class GestureButtonState: ObservableObject {
     func updateDragGesture(
         with value: DragGesture.Value
     ) {
-        lastDragGestureValue = value
+        lastDragGestureLocation = value.location
         let distance = distance(
             from: value.startLocation,
             to: value.location

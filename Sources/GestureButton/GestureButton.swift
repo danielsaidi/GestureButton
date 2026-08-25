@@ -220,13 +220,13 @@ private extension GestureButton {
     /// by a proper bug fix.
     func tryTriggerCancelAfterDelay() {
         guard let delay = config.cancelDelay else { return }
-        let startLocation = state.lastDragGestureValue?.location
+        let startLocation = state.lastDragGestureLocation
         let state = state
         let updatesLabel = updatesLabelWithPressedState
         let endAction = endAction
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             if state.isRemoved { return }
-            guard state.lastDragGestureValue?.location == startLocation else { return }
+            guard state.lastDragGestureLocation == startLocation else { return }
             state.reset(updatesLabelWithPressedState: updatesLabel)
             endAction?(state.buttonGeometry)
         }
