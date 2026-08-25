@@ -18,16 +18,16 @@ struct ContentView: View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 15) {
                 GestureButton(
-                    pressAction: { log("Pressed") },
-                    releaseInsideAction: { log("Release: Inside") },
-                    releaseOutsideAction: { log("Release: Outside") },
-                    longPressAction: { log("Long Press") },
-                    doubleTapAction: { log("Double Tap") },
-                    repeatAction: { logRepeat() },
-                    dragStartAction: { logDragValue("Started", $0) },
-                    // dragAction: { logDragValue("Move", $0) },    // Will generate a lot of logs
-                    dragEndAction: { logDragValue("Ended", $0) },
-                    endAction: { log("\nEnded") }
+                    pressAction: { _ in log("Pressed") },
+                    releaseInsideAction: { _ in log("Release: Inside") },
+                    releaseOutsideAction: { _ in log("Release: Outside") },
+                    longPressAction: { _ in log("Long Press") },
+                    doubleTapAction: { _ in log("Double Tap") },
+                    repeatAction: { _ in logRepeat() },
+                    dragStartAction: { value, _ in logDrag("Started", value) },
+                    // dragAction: { logDrag("Move", $0) },  // Lot of logs!
+                    dragEndAction: { value, _ in logDrag("Ended", value) },
+                    endAction: { _ in log("\nEnded") }
                 ) { isPressed in
                     buttonColor(isPressed)
                         .overlay(Text(isPressed ? "Pressed!" : "Button"))
@@ -67,7 +67,7 @@ private extension ContentView {
         log = text + "\n" + log
     }
 
-    func logDragValue(_ event: String, _ value: DragGesture.Value) {
+    func logDrag(_ event: String, _ value: DragGesture.Value) {
         log("Drag \(event): \(value.location.x.rounded()) \(value.location.y.rounded())")
     }
 
