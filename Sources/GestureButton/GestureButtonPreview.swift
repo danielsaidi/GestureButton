@@ -30,8 +30,8 @@ struct GestureButtonPreview {
                                 .frame(width: 50)
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
         }
     }
@@ -48,8 +48,8 @@ struct GestureButtonPreview {
             color
                 .clipShape(.rect(cornerRadius: 10))
                 .opacity(isPressed ? 0.5 : 1)
-                .scaleEffect(isPressed ? 0.9 : 1)
-                .animation(.default, value: isPressed)
+                .scaleEffect(isPressed ? 0.95 : 1)
+                .animation(.bouncy, value: isPressed)
         }
     }
     

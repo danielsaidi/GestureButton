@@ -106,15 +106,6 @@ private extension GestureButton {
 
     @ViewBuilder
     var gestureContent: some View {
-        if #available(iOS 16.0, macOS 13.0, watchOS 9.0, *) {
-            modernGestureContent
-        } else {
-            legacyGestureContent
-        }
-    }
-
-    @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
-    var modernGestureContent: some View {
         label(state.isPressed)
             .contentShape(Rectangle())
             .simultaneousGesture(modernGesture)
@@ -125,12 +116,6 @@ private extension GestureButton {
             }
     }
 
-    var legacyGestureContent: some View {
-        label(state.isPressed)
-            .overlay(legacyGestureView)
-    }
-
-    @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
     var modernGesture: some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { handleDrag($0) }
@@ -140,24 +125,6 @@ private extension GestureButton {
                     isInside: state.buttonSize.containsGestureLocation($0.location)
                 )
             }
-    }
-
-    func legacyGesture(
-        for geo: GeometryProxy
-    ) -> some Gesture {
-        DragGesture(minimumDistance: 0)
-            .onChanged { handleDrag($0) }
-            .onEnded {
-                handleDragEnded($0, isInside: geo.contains($0.location))
-            }
-    }
-
-    var legacyGestureView: some View {
-        GeometryReader { geo in
-            Color.clear
-                .contentShape(Rectangle())
-                .simultaneousGesture(legacyGesture(for: geo))
-        }
     }
     
     func handleDrag(
@@ -329,9 +296,10 @@ private extension GestureButton {
                     dragStartAction: { state.dragStartValue = $0.location },
                     dragAction: { state.dragChangedValue = $0.location },
                     dragEndAction: { state.dragEndValue = $0.location },
-                    endAction: { state.endCount += 1 },
-                    label: { GestureButtonPreview.Item(isPressed: $0) }
-                )
+                    endAction: { state.endCount += 1 }
+                ) {
+                    GestureButtonPreview.Item(isPressed: $0)
+                }
             }
             .gestureButtonConfiguration(
                 .init(longPressDelay: 0.8)

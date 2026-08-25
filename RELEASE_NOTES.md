@@ -11,18 +11,22 @@ Until then, breaking changes can also happen in `minor` updates.
 
 
 
-## 0.5.1
+## 0.6
 
-This version reduces redundant gesture button view updates.
+This version bumps deployment targets to iOS 16 and aligned platform versions. 
+
+This version makes the `GestureButton` measure its bounds with `onGeometryChange` instead of a transparent `GeometryReader` overlay.
+
+This version has a temporary `updatesLabelWithPressedState` flag to let you reduce redundant gesture button content view updates. We will evaluate if this provides considerable performance saving possibilities, before deciding whether to keep it or not. 
 
 ### ✨ Features
 
-* `GestureButton` has a new `updatesLabelWithPressedState` init argument.
+* `GestureButton` has a *temporary* `updatesLabelWithPressedState` init argument.
 
 ### 💡 Adjustments
 
-* Gesture buttons no longer publish unchanged pressed state values.
-* On iOS 16+, macOS 13+, and watchOS 9+, gesture buttons measure their bounds with `onGeometryChange` instead of a transparent `GeometryReader` overlay.
+* `GestureButton` no longer publishes unchanged pressed state values. 
+* `GestureButton` uses an `onGeometryChange` modifier instead of a `GeometryReader` overlay. 
 
 
 
