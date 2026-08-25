@@ -21,12 +21,17 @@ This version has a temporary `updatesLabelWithPressedState` flag to let you redu
 
 ### ✨ Features
 
+* `GestureButton` can be created with a coordinate space.
 * `GestureButton` has a *temporary* `updatesLabelWithPressedState` init argument.
 
 ### 💡 Adjustments
 
 * `GestureButton` no longer publishes unchanged pressed state values. 
-* `GestureButton` uses an `onGeometryChange` modifier instead of a `GeometryReader` overlay. 
+* `GestureButton` uses an `onGeometryChange` modifier instead of a `GeometryReader` overlay.
+
+### 💥 Breaking Changes
+
+* `GestureButton` actions now take contextual values, like geometry information.
 
 
 

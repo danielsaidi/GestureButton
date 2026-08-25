@@ -12,7 +12,7 @@ import SwiftUI
 
 /// This type is used internally to manage button state.
 class GestureButtonState: ObservableObject {
-    
+
     /// Create a gesture button state value.
     init(
         isPressed: Binding<Bool>? = nil,
@@ -30,7 +30,7 @@ class GestureButtonState: ObservableObject {
     private(set) var isDragGestureStarted = false
     private(set) var lastDragGestureValue: DragGesture.Value?
     private(set) var lastMaxDragDistance = -1.0
-    var buttonSize = CGSize.zero
+    var buttonGeometry = GestureButtonGeometry()
 
     private var isPressedBinding: Binding<Bool>?
 
@@ -50,7 +50,7 @@ class GestureButtonState: ObservableObject {
         isPressed = value
         isPressedBinding?.wrappedValue = value
     }
-    
+
     func startDragGesture(
         with value: DragGesture.Value
     ) {
@@ -58,11 +58,11 @@ class GestureButtonState: ObservableObject {
         lastMaxDragDistance = -1
         updateDragGesture(with: value)
     }
-    
+
     func stopDragGesture() {
         isDragGestureStarted = false
     }
-    
+
     func updateDragGesture(
         with value: DragGesture.Value
     ) {
@@ -77,7 +77,7 @@ class GestureButtonState: ObservableObject {
 }
 
 extension GestureButtonState {
-    
+
     func distance(
         from point1: CGPoint,
         to point2: CGPoint

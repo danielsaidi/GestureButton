@@ -10,7 +10,7 @@ import SwiftUI
 
 /// This configuration can be used to setup a gesture button.
 public struct GestureButtonConfiguration: Codable, Equatable, Hashable, Sendable {
-    
+
     /// Create a gesture button configuration.
     ///
     /// You can apply a custom config with the view modifier
@@ -44,19 +44,19 @@ public struct GestureButtonConfiguration: Codable, Equatable, Hashable, Sendable
 }
 
 public extension GestureButtonConfiguration {
-    
+
     /// A standard gesture button configuration.
     static let standard = GestureButtonConfiguration()
 }
 
 public extension EnvironmentValues {
-    
+
     /// This value will inject a config into the environment.
     @Entry var gestureButtonConfiguration = GestureButtonConfiguration.standard
 }
 
 public extension View {
-    
+
     /// Apply a gesture button config to the view hierarchy.
     func gestureButtonConfiguration(
         _ config: GestureButtonConfiguration

@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct GestureButtonPreview {
-    
+
     struct Content<Content: View>: View {
-        
+
         @ObservedObject
         var state: GestureButtonPreview.State
-        
+
         @ViewBuilder
         var content: () -> Content
-        
+
         var body: some View {
             VStack(spacing: 20) {
                 GestureButtonPreview.Header(state: state)
@@ -35,15 +35,15 @@ struct GestureButtonPreview {
             }
         }
     }
-    
+
     struct Item: View {
-        
+
         var isPressed: Bool
-        
+
         var color: Color {
             isPressed ? .green : .red
         }
-        
+
         var body: some View {
             color
                 .clipShape(.rect(cornerRadius: 10))
@@ -52,9 +52,9 @@ struct GestureButtonPreview {
                 .animation(.bouncy, value: isPressed)
         }
     }
-    
+
     struct Header: View {
-        
+
         @ObservedObject
         var state: GestureButtonPreview.State
 
@@ -76,15 +76,15 @@ struct GestureButtonPreview {
             .padding()
             .background(RoundedRectangle(cornerRadius: 16).stroke(.blue, lineWidth: 3))
         }
-        
+
         func label(_ title: String, _ point: CGPoint) -> some View {
             label(title, "\(point.x.rounded()), \(point.y.rounded())")
         }
-        
+
         func label(_ title: String, _ value: Int) -> some View {
             label(title, "\(value)")
         }
-        
+
         func label(_ title: String, _ value: String) -> some View {
             HStack {
                 Text("\(title):")
@@ -93,9 +93,9 @@ struct GestureButtonPreview {
             .lineLimit(1)
         }
     }
-    
+
     class State: ObservableObject {
-        
+
         @Published var isPressed = false
         @Published var pressCount = 0
         @Published var releaseInsideCount = 0
