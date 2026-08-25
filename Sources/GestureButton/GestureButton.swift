@@ -21,6 +21,7 @@ public struct GestureButton<Label: View>: View {
     ///
     /// - Parameters:
     ///   - isPressed: A custom, optional binding to track pressed state, if any.
+    ///   - updatesLabelWithPressedState: Whether GestureButton should invalidate its label when the pressed state changes, by default `true`. Set this to `false` only when the label ignores its pressed state argument. A provided `isPressed` binding is still updated.
     ///   - pressAction: The action to trigger when the button is pressed, if any.
     ///   - releaseInsideAction: The action to trigger when the button is released inside, if any.
     ///   - releaseOutsideAction: The action to trigger when the button is released outside of its bounds, if any.
@@ -36,6 +37,7 @@ public struct GestureButton<Label: View>: View {
     ///   - label: The button label.
     public init(
         isPressed: Binding<Bool>? = nil,
+        updatesLabelWithPressedState: Bool = true,
         pressAction: Action? = nil,
         releaseInsideAction: Action? = nil,
         releaseOutsideAction: Action? = nil,
@@ -54,6 +56,7 @@ public struct GestureButton<Label: View>: View {
             isPressed: isPressed,
             repeatTimer: repeatTimer
         ))
+        self.updatesLabelWithPressedState = updatesLabelWithPressedState
         self.pressAction = pressAction
         self.releaseInsideAction = releaseInsideAction
         self.releaseOutsideAction = releaseOutsideAction
@@ -71,7 +74,8 @@ public struct GestureButton<Label: View>: View {
     public typealias Action = () -> Void
     public typealias DragAction = (DragGesture.Value) -> Void
     public typealias LabelBuilder = (_ isPressed: Bool) -> Label
-    
+
+    private let updatesLabelWithPressedState: Bool
     private let pressAction: Action?
     private let releaseInsideAction: Action?
     private let releaseOutsideAction: Action?
@@ -92,28 +96,67 @@ public struct GestureButton<Label: View>: View {
     private var config
     
     public var body: some View {
-        label(state.isPressed)
-            .overlay(gestureView)
+        gestureContent
             .onDisappear { state.isRemoved = true }
             .accessibilityAddTraits(accessibilityTraits)
     }
 }
 
 private extension GestureButton {
-    
-    func gesture(
+
+    @ViewBuilder
+    var gestureContent: some View {
+        if #available(iOS 16.0, macOS 13.0, watchOS 9.0, *) {
+            modernGestureContent
+        } else {
+            legacyGestureContent
+        }
+    }
+
+    @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
+    var modernGestureContent: some View {
+        label(state.isPressed)
+            .contentShape(Rectangle())
+            .simultaneousGesture(modernGesture)
+            .onGeometryChange(for: CGSize.self) { proxy in
+                proxy.size
+            } action: { size in
+                state.buttonSize = size
+            }
+    }
+
+    var legacyGestureContent: some View {
+        label(state.isPressed)
+            .overlay(legacyGestureView)
+    }
+
+    @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
+    var modernGesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { handleDrag($0) }
+            .onEnded {
+                handleDragEnded(
+                    $0,
+                    isInside: state.buttonSize.containsGestureLocation($0.location)
+                )
+            }
+    }
+
+    func legacyGesture(
         for geo: GeometryProxy
     ) -> some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { handleDrag($0) }
-            .onEnded { handleDragEnded($0, in: geo) }
+            .onEnded {
+                handleDragEnded($0, isInside: geo.contains($0.location))
+            }
     }
-    
-    var gestureView: some View {
+
+    var legacyGestureView: some View {
         GeometryReader { geo in
             Color.clear
                 .contentShape(Rectangle())
-                .simultaneousGesture(gesture(for: geo))
+                .simultaneousGesture(legacyGesture(for: geo))
         }
     }
     
@@ -129,11 +172,11 @@ private extension GestureButton {
     
     func handleDragEnded(
         _ value: DragGesture.Value,
-        in geo: GeometryProxy
+        isInside: Bool
     ) {
         defer { state.stopDragGesture() }
         guard state.isDragGestureStarted else { return }
-        tryHandleRelease(value, in: geo)
+        tryHandleRelease(value, isInside: isInside)
     }
 
     func handleRepeatAction() {
@@ -142,7 +185,10 @@ private extension GestureButton {
     }
 
     func reset() {
-        state.isPressed = false
+        state.setIsPressed(
+            false,
+            updatesLabelWithPressedState: updatesLabelWithPressedState
+        )
         state.longPressDate = Date()
         state.repeatDate = Date()
         tryStopRepeatTimer()
@@ -153,7 +199,10 @@ private extension GestureButton {
 
     func tryHandlePress(_ value: DragGesture.Value) {
         if state.isPressed { return }
-        state.isPressed = true
+        state.setIsPressed(
+            true,
+            updatesLabelWithPressedState: updatesLabelWithPressedState
+        )
         pressAction?()
         dragStartAction?(value)
         tryTriggerCancelAfterDelay()
@@ -171,13 +220,16 @@ private extension GestureButton {
     ///
     /// This function will always trigger the drag end and end actions, then either
     /// of the release inside or outside actions.
-    func tryHandleRelease(_ value: DragGesture.Value, in geo: GeometryProxy) {
+    func tryHandleRelease(
+        _ value: DragGesture.Value,
+        isInside: Bool
+    ) {
         let shouldTrigger = state.isPressed
         reset()
         guard shouldTrigger else { return }
         state.releaseDate = tryTriggerDoubleTap() ? .distantPast : Date()
         dragEndAction?(value)
-        if geo.contains(value.location) {
+        if isInside {
             releaseInsideAction?()
         } else {
             releaseOutsideAction?()

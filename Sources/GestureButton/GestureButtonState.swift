@@ -7,10 +7,10 @@
 //
 
 #if os(iOS) || os(macOS) || os(watchOS) || os(visionOS)
+import Combine
 import SwiftUI
 
-/// This type is used internally to manage button state with
-/// no view redraw triggers.
+/// This type is used internally to manage button state.
 class GestureButtonState: ObservableObject {
     
     /// Create a gesture button state value.
@@ -18,26 +18,38 @@ class GestureButtonState: ObservableObject {
         isPressed: Binding<Bool>? = nil,
         repeatTimer: GestureButtonTimer? = nil
     ) {
-        self.isPressedBinding = isPressed ?? .constant(false)
+        self.isPressedBinding = isPressed
         self.repeatTimer = repeatTimer ?? .init()
     }
-    
+
+    let objectWillChange = ObservableObjectPublisher()
     let repeatTimer: GestureButtonTimer
 
-    @Published
-    var isPressed = false {
-        didSet { isPressedBinding.wrappedValue = isPressed }
-    }
-    
+    private(set) var isPressed = false
+
     private(set) var isDragGestureStarted = false
     private(set) var lastDragGestureValue: DragGesture.Value?
     private(set) var lastMaxDragDistance = -1.0
-    
-    var isPressedBinding: Binding<Bool>
+    var buttonSize = CGSize.zero
+
+    private var isPressedBinding: Binding<Bool>?
+
     var isRemoved = false
     var longPressDate = Date()
     var releaseDate = Date()
     var repeatDate = Date()
+
+    func setIsPressed(
+        _ value: Bool,
+        updatesLabelWithPressedState: Bool = true
+    ) {
+        guard value != isPressed else { return }
+        if updatesLabelWithPressedState {
+            objectWillChange.send()
+        }
+        isPressed = value
+        isPressedBinding?.wrappedValue = value
+    }
     
     func startDragGesture(
         with value: DragGesture.Value
@@ -76,14 +88,21 @@ extension GestureButtonState {
     }
 }
 
+extension CGSize {
+
+    func containsGestureLocation(_ location: CGPoint) -> Bool {
+        let x = location.x
+        let y = location.y
+        guard x > 0, y > 0 else { return false }
+        guard x < width, y < height else { return false }
+        return true
+    }
+}
+
 extension GeometryProxy {
 
     func contains(_ dragEndLocation: CGPoint) -> Bool {
-        let x = dragEndLocation.x
-        let y = dragEndLocation.y
-        guard x > 0, y > 0 else { return false }
-        guard x < size.width, y < size.height else { return false }
-        return true
+        size.containsGestureLocation(dragEndLocation)
     }
 }
 #endif

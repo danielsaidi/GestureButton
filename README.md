@@ -44,6 +44,8 @@ struct ContentView: View {
 
 You can pass in custom configurations to change how the button behaves, e.g. the max time between two taps for the taps to count as a double-tap. You can use any content `View` as the button label, based on the `isPressed` state.
 
+If a label ignores its `isPressed` argument, you can set `updatesLabelWithPressedState` to `false` to avoid the button's internal label invalidation. A custom `isPressed` binding will still receive state changes.
+
 
 ## Installation
 
