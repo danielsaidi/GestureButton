@@ -220,12 +220,15 @@ private extension GestureButton {
     /// by a proper bug fix.
     func tryTriggerCancelAfterDelay() {
         guard let delay = config.cancelDelay else { return }
-        let value = state.lastDragGestureValue
+        let startLocation = state.lastDragGestureValue?.location
+        let state = state
+        let updatesLabel = updatesLabelWithPressedState
+        let endAction = endAction
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            let location = state.lastDragGestureValue?.location
-            guard location == value?.location else { return }
-            self.reset()
-            self.endAction?(geometry)
+            if state.isRemoved { return }
+            guard state.lastDragGestureValue?.location == startLocation else { return }
+            state.reset(updatesLabelWithPressedState: updatesLabel)
+            endAction?(state.buttonGeometry)
         }
     }
 
@@ -243,12 +246,14 @@ private extension GestureButton {
     func tryTriggerLongPressAfterDelay() {
         guard let action = longPressAction else { return }
         let date = Date()
+        let maxDragDistance = config.longPressMaxDragDistance
+        let state = state
         state.longPressDate = date
         DispatchQueue.main.asyncAfter(deadline: .now() + config.longPressDelay) {
             if state.isRemoved { return }
-            if state.lastMaxDragDistance > config.longPressMaxDragDistance { return }
+            if state.lastMaxDragDistance > maxDragDistance { return }
             guard state.longPressDate == date else { return }
-            action(geometry)
+            action(state.buttonGeometry)
         }
     }
 

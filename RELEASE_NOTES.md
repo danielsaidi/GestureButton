@@ -18,6 +18,7 @@ This version adds more performance optimizations.
 ### ✨ Features 
 
 * `GestureButtonState` has a new reset function.
+* `GestureButton` no longer captures itself in its delayed operations.
 
 ### 💡 Adjustments
 
