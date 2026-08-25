@@ -51,6 +51,20 @@ class GestureButtonState: ObservableObject {
         isPressedBinding?.wrappedValue = value
     }
 
+    /// Reset the pressed state and any pending press timers.
+    func reset(
+        updatesLabelWithPressedState: Bool = true
+    ) {
+        setIsPressed(
+            false,
+            updatesLabelWithPressedState: updatesLabelWithPressedState
+        )
+        longPressDate = Date()
+        repeatDate = Date()
+        guard repeatTimer.isActive else { return }
+        repeatTimer.stop()
+    }
+
     func startDragGesture(
         with value: DragGesture.Value
     ) {

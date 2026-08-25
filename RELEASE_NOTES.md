@@ -13,11 +13,15 @@ Until then, breaking changes can also happen in `minor` updates.
 
 ## 0.6.1
 
-This version adds more performance optimizations. 
+This version adds more performance optimizations.
+
+### ✨ Features 
+
+* `GestureButtonState` has a new reset function.
 
 ### 💡 Adjustments
 
-* `GestureButton` no longer starts a repeat timer if there's no repeat action. 
+* `GestureButton` no longer starts a repeat timer if there's no repeat action.  
 
 
 

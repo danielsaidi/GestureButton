@@ -159,13 +159,9 @@ private extension GestureButton {
     }
 
     func reset() {
-        state.setIsPressed(
-            false,
+        state.reset(
             updatesLabelWithPressedState: updatesLabelWithPressedState
         )
-        state.longPressDate = Date()
-        state.repeatDate = Date()
-        tryStopRepeatTimer()
     }
 }
 
