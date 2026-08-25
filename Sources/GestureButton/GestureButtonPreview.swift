@@ -15,6 +15,9 @@ struct GestureButtonPreview {
         @ObservedObject
         var state: GestureButtonPreview.State
 
+        @SwiftUI.State
+        var buttonCount = 4
+
         @ViewBuilder
         var content: () -> Content
 
@@ -25,12 +28,17 @@ struct GestureButtonPreview {
 
                 ScrollView(.horizontal) {
                     HStack(spacing: 25) {
-                        ForEach(0...10, id: \.self) { _ in
+                        ForEach(0...buttonCount, id: \.self) { _ in
                             content()
                                 .frame(width: 50)
                         }
                     }
                     .padding(.horizontal)
+                }
+            }
+            .task {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    buttonCount -= 1
                 }
             }
         }

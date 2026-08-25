@@ -51,6 +51,16 @@ class GestureButtonState: ObservableObject {
         isPressedBinding?.wrappedValue = value
     }
 
+    /// Tear down the state when the button is removed.
+    ///
+    /// This resets the state without publishing any changes,
+    /// since publishing while the button is being removed can
+    /// cause SwiftUI to warn about view update side-effects.
+    func tearDown() {
+        isRemoved = true
+        reset(updatesLabelWithPressedState: false)
+    }
+
     /// Reset the pressed state and any pending press timers.
     func reset(
         updatesLabelWithPressedState: Bool = true

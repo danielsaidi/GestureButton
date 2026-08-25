@@ -101,7 +101,7 @@ public struct GestureButton<Label: View>: View {
 
     public var body: some View {
         gestureContent
-            .onDisappear { state.isRemoved = true }
+            .onDisappear { state.tearDown() }
             .accessibilityAddTraits(accessibilityTraits)
     }
 }

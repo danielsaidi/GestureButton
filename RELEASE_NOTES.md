@@ -11,39 +11,31 @@ Until then, breaking changes can also happen in `minor` updates.
 
 
 
-## 0.6.1
-
-This version adds more performance optimizations.
-
-### ✨ Features 
-
-* `GestureButtonState` has a new reset function.
-
-### 💡 Adjustments
-
-* `GestureButton` no longer captures itself in its delayed operations.
-* `GestureButton` no longer starts a repeat timer if there's no repeat action.  
-* `GestureButton` no longer stores the full drag gesture value on every gesture change.
-
-
-
 ## 0.6
 
 This version bumps deployment targets to iOS 16 and aligned platform versions. 
 
-This version makes the `GestureButton` measure its bounds with `onGeometryChange` instead of a transparent `GeometryReader` overlay.
+This version applies performance optimizations and bug fixes to `GestureButton`, and makes it measure its bounds with `onGeometryChange` instead of a transparent `GeometryReader` overlay.
 
-This version has a temporary `updatesLabelWithPressedState` flag to let you reduce redundant gesture button content view updates. We will evaluate if this provides considerable performance saving possibilities, before deciding whether to keep it or not. 
+This version also adds a temporary `updatesLabelWithPressedState` flag to let you reduce redundant gesture button content view updates. We will evaluate if this provides considerable performance saving possibilities, before deciding whether to keep it or not. 
 
 ### ✨ Features
 
 * `GestureButton` can be created with a coordinate space.
 * `GestureButton` has a *temporary* `updatesLabelWithPressedState` init argument.
+* `GestureButtonState` has a new reset function.
 
 ### 💡 Adjustments
 
-* `GestureButton` no longer publishes unchanged pressed state values. 
-* `GestureButton` uses an `onGeometryChange` modifier instead of a `GeometryReader` overlay.
+* `GestureButton` no longer publishes unchanged pressed state values.
+* `GestureButton` no longer captures itself in its delayed operations.
+* `GestureButton` no longer starts a repeat timer if there's no repeat action.  
+* `GestureButton` no longer stores the full drag gesture value on every gesture change. 
+* `GestureButton` uses `.onGeometryChange` instead of a transparent `GeometryReader` overlay.
+
+### 🐛 Bug Fixes
+
+* `GestureButton` now tears down the repeat timer when it's removed.
 
 ### 💥 Breaking Changes
 
