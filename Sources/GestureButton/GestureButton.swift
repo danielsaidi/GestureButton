@@ -303,10 +303,9 @@ private extension GestureButton {
                     dragStartAction: { value, _ in state.dragStartValue = value.location },
                     dragAction: { value, _ in state.dragChangedValue = value.location },
                     dragEndAction: { value, _ in state.dragEndValue = value.location },
-                    endAction: { _ in state.endCount += 1 }
-                ) {
-                    GestureButtonPreview.Item(isPressed: $0)
-                }
+                    endAction: { _ in state.endCount += 1 },
+                    label: { GestureButtonPreview.Item(isPressed: $0) }
+                )
             }
             .gestureButtonConfiguration(
                 .init(longPressDelay: 0.8)
