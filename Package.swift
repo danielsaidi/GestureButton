@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
     name: "GestureButton",
     platforms: [
-        .iOS(.v15),
-        .tvOS(.v15),
-        .watchOS(.v8),
-        .macOS(.v12),
+        .iOS(.v16),
+        .tvOS(.v16),
+        .watchOS(.v9),
+        .macOS(.v13),
         .visionOS(.v1)
     ],
     products: [
