@@ -258,6 +258,7 @@ private extension GestureButton {
 
     /// This function tries to start a repeat action trigger timer after repeat delay.
     func tryTriggerRepeatAfterDelay() {
+        guard repeatAction != nil else { return }
         let date = Date()
         state.repeatDate = date
         DispatchQueue.main.asyncAfter(deadline: .now() + config.repeatDelay) {
@@ -276,12 +277,6 @@ private extension GestureButton {
             }
         }
     }
-
-    /// Try to stop the repeat timer.
-    func tryStopRepeatTimer() {
-        guard state.repeatTimer.isActive else { return }
-        state.repeatTimer.stop()
-    }
 }
 
 #Preview {
@@ -294,17 +289,41 @@ private extension GestureButton {
             GestureButtonPreview.Content(state: state) {
                 GestureButton(
                     isPressed: $state.isPressed,
-                    pressAction: { _ in state.pressCount += 1 },
-                    releaseInsideAction: { _ in state.releaseInsideCount += 1 },
-                    releaseOutsideAction: { _ in state.releaseOutsideCount += 1 },
-                    longPressAction: { _ in state.longPressCount += 1 },
-                    doubleTapAction: { _ in state.doubleTapCount += 1 },
-                    repeatAction: { _ in state.repeatCount += 1 },
-                    dragStartAction: { value, _ in state.dragStartValue = value.location },
-                    dragAction: { value, _ in state.dragChangedValue = value.location },
-                    dragEndAction: { value, _ in state.dragEndValue = value.location },
-                    endAction: { _ in state.endCount += 1 },
-                    label: { GestureButtonPreview.Item(isPressed: $0) }
+                    pressAction: { _ in
+                        state.pressCount += 1
+                    },
+                    releaseInsideAction: { _ in
+                        state.releaseInsideCount += 1
+                    },
+                    releaseOutsideAction: { _ in
+                        state.releaseOutsideCount += 1
+                    },
+                    longPressAction: { _ in
+                        state.longPressCount += 1
+                    },
+                    doubleTapAction: { _ in
+                        state.doubleTapCount += 1
+                    },
+                    repeatAction: { _ in
+                        state.repeatCount += 1
+                    },
+                    dragStartAction: { value, _ in
+                        state.dragStartValue = value.location
+                    },
+                    dragAction: { value, _ in
+                        state.dragChangedValue = value.location
+                    },
+                    dragEndAction: { value, _ in
+                        state.dragEndValue = value.location
+                    },
+                    endAction: { _ in
+                        state.endCount += 1
+                    },
+                    label: {
+                        GestureButtonPreview.Item(
+                            isPressed: $0
+                        )
+                    }
                 )
             }
             .gestureButtonConfiguration(

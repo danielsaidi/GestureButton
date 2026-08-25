@@ -11,6 +11,16 @@ Until then, breaking changes can also happen in `minor` updates.
 
 
 
+## 0.6.1
+
+This version adds more performance optimizations. 
+
+### 💡 Adjustments
+
+* `GestureButton` no longer starts a repeat timer if there's no repeat action. 
+
+
+
 ## 0.6
 
 This version bumps deployment targets to iOS 16 and aligned platform versions. 
