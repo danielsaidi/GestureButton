@@ -1,5 +1,4 @@
 #if os(iOS) || os(macOS) || os(watchOS) || os(visionOS)
-import Combine
 import SwiftUI
 import XCTest
 @testable import GestureButton
@@ -37,17 +36,13 @@ final class GestureButtonTests: XCTestCase {
         XCTAssertFalse(CGSize.zero.containsGestureLocation(CGPoint(x: 0, y: 0)))
     }
 
-    func testSetIsPressedPublishesAndWritesOnlyChanges() {
+    func testSetIsPressedWritesOnlyChangesToBinding() {
         let bindings = Recorder<Bool>()
-        let changes = Recorder<Void>()
         let binding = Binding(
             get: { false },
             set: { bindings.append($0) }
         )
         let state = GestureButtonState(isPressed: binding)
-        let cancellable = state.objectWillChange.sink {
-            changes.append(())
-        }
 
         state.setIsPressed(false)
         state.setIsPressed(true)
@@ -55,59 +50,55 @@ final class GestureButtonTests: XCTestCase {
         state.setIsPressed(false)
         state.setIsPressed(false)
 
-        XCTAssertEqual(changes.count, 2)
         XCTAssertEqual(bindings.values, [true, false])
-        withExtendedLifetime(cancellable) {}
     }
 
-    func testSetIsPressedPublishesWithoutBinding() {
-        let changes = Recorder<Void>()
+    func testSetIsPressedUpdatesStateWithoutBinding() {
         let state = GestureButtonState()
-        let cancellable = state.objectWillChange.sink {
-            changes.append(())
-        }
 
         state.setIsPressed(true)
-
         XCTAssertTrue(state.isPressed)
-        XCTAssertEqual(changes.count, 1)
-        withExtendedLifetime(cancellable) {}
+
+        state.setIsPressed(false)
+        XCTAssertFalse(state.isPressed)
     }
 
-    func testSetIsPressedPublishesWithConstantBinding() {
-        let changes = Recorder<Void>()
+    func testSetIsPressedUpdatesStateWithConstantBinding() {
         let state = GestureButtonState(isPressed: .constant(false))
-        let cancellable = state.objectWillChange.sink {
-            changes.append(())
-        }
 
         state.setIsPressed(true)
 
         XCTAssertTrue(state.isPressed)
-        XCTAssertEqual(changes.count, 1)
-        withExtendedLifetime(cancellable) {}
     }
 
-    func testSetIsPressedCanSkipPublishingLabelChanges() {
+    func testResetClearsPressedStateAndStopsRepeatTimer() {
         let bindings = Recorder<Bool>()
-        let changes = Recorder<Void>()
         let binding = Binding(
             get: { false },
             set: { bindings.append($0) }
         )
         let state = GestureButtonState(isPressed: binding)
-        let cancellable = state.objectWillChange.sink {
-            changes.append(())
-        }
+        state.setIsPressed(true)
+        state.repeatTimer.start {}
+        XCTAssertTrue(state.repeatTimer.isActive)
 
-        state.setIsPressed(true, updatesLabelWithPressedState: false)
-        XCTAssertTrue(state.isPressed)
-        state.setIsPressed(false, updatesLabelWithPressedState: false)
+        state.reset()
 
         XCTAssertFalse(state.isPressed)
-        XCTAssertEqual(changes.count, 0)
+        XCTAssertFalse(state.repeatTimer.isActive)
         XCTAssertEqual(bindings.values, [true, false])
-        withExtendedLifetime(cancellable) {}
+    }
+
+    func testTearDownMarksRemovedAndResets() {
+        let state = GestureButtonState()
+        state.setIsPressed(true)
+        state.repeatTimer.start {}
+
+        state.tearDown()
+
+        XCTAssertTrue(state.isRemoved)
+        XCTAssertFalse(state.isPressed)
+        XCTAssertFalse(state.repeatTimer.isActive)
     }
 }
 #endif

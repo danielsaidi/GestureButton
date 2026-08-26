@@ -7,7 +7,6 @@
 //
 
 #if os(iOS) || os(macOS) || os(watchOS) || os(visionOS)
-import Combine
 import SwiftUI
 
 /// This type is used internally to manage button state.
@@ -22,7 +21,6 @@ class GestureButtonState: ObservableObject {
         self.repeatTimer = repeatTimer ?? .init()
     }
 
-    let objectWillChange = ObservableObjectPublisher()
     let repeatTimer: GestureButtonTimer
 
     private(set) var isPressed = false
@@ -30,6 +28,7 @@ class GestureButtonState: ObservableObject {
     private(set) var isDragGestureStarted = false
     private(set) var lastDragGestureLocation: CGPoint?
     private(set) var lastMaxDragDistance = -1.0
+
     var buttonGeometry = GestureButtonGeometry()
 
     private var isPressedBinding: Binding<Bool>?
@@ -40,13 +39,9 @@ class GestureButtonState: ObservableObject {
     var repeatDate = Date()
 
     func setIsPressed(
-        _ value: Bool,
-        updatesLabelWithPressedState: Bool = true
+        _ value: Bool
     ) {
         guard value != isPressed else { return }
-        if updatesLabelWithPressedState {
-            objectWillChange.send()
-        }
         isPressed = value
         isPressedBinding?.wrappedValue = value
     }
@@ -58,17 +53,12 @@ class GestureButtonState: ObservableObject {
     /// cause SwiftUI to warn about view update side-effects.
     func tearDown() {
         isRemoved = true
-        reset(updatesLabelWithPressedState: false)
+        reset()
     }
 
     /// Reset the pressed state and any pending press timers.
-    func reset(
-        updatesLabelWithPressedState: Bool = true
-    ) {
-        setIsPressed(
-            false,
-            updatesLabelWithPressedState: updatesLabelWithPressedState
-        )
+    func reset() {
+        setIsPressed(false)
         longPressDate = Date()
         repeatDate = Date()
         guard repeatTimer.isActive else { return }

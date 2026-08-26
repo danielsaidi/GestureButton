@@ -11,6 +11,12 @@ Until then, breaking changes can also happen in `minor` updates.
 
 
 
+## 0.6.1
+
+This version removes the `updatesLabelWithPressedState` since it had neglible effect. 
+
+
+
 ## 0.6
 
 This version bumps deployment targets to iOS 16 and aligned platform versions. 

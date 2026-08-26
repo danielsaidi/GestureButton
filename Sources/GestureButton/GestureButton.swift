@@ -21,7 +21,6 @@ public struct GestureButton<Label: View>: View {
     ///
     /// - Parameters:
     ///   - isPressed: A custom, optional binding to track pressed state, if any.
-    ///   - updatesLabelWithPressedState: Whether to invalidate the internal label when the pressed state changes, by default `true`. Set this to `false` only when the label ignores its pressed state argument.
     ///   - coordinateSpace: A coordinate space in which to resolve the button frame, if any.
     ///   - pressAction: The action to trigger when the button is pressed, if any.
     ///   - releaseInsideAction: The action to trigger when the button is released inside, if any.
@@ -38,7 +37,6 @@ public struct GestureButton<Label: View>: View {
     ///   - label: The button label.
     public init(
         isPressed: Binding<Bool>? = nil,
-        updatesLabelWithPressedState: Bool = true,
         coordinateSpace: CoordinateSpace? = nil,
         pressAction: Action? = nil,
         releaseInsideAction: Action? = nil,
@@ -58,7 +56,6 @@ public struct GestureButton<Label: View>: View {
             isPressed: isPressed,
             repeatTimer: repeatTimer
         ))
-        self.updatesLabelWithPressedState = updatesLabelWithPressedState
         self.coordinateSpace = coordinateSpace
         self.pressAction = pressAction
         self.releaseInsideAction = releaseInsideAction
@@ -78,7 +75,6 @@ public struct GestureButton<Label: View>: View {
     public typealias DragAction = (DragGesture.Value, GestureButtonGeometry) -> Void
     public typealias LabelBuilder = (_ isPressed: Bool) -> Label
 
-    private let updatesLabelWithPressedState: Bool
     private let coordinateSpace: CoordinateSpace?
     private let pressAction: Action?
     private let releaseInsideAction: Action?
@@ -157,22 +153,13 @@ private extension GestureButton {
         guard let repeatAction else { return }
         repeatAction(geometry)
     }
-
-    func reset() {
-        state.reset(
-            updatesLabelWithPressedState: updatesLabelWithPressedState
-        )
-    }
 }
 
 private extension GestureButton {
 
     func tryHandlePress(_ value: DragGesture.Value) {
         if state.isPressed { return }
-        state.setIsPressed(
-            true,
-            updatesLabelWithPressedState: updatesLabelWithPressedState
-        )
+        state.setIsPressed(true)
         pressAction?(geometry)
         dragStartAction?(value, geometry)
         tryTriggerCancelAfterDelay()
@@ -195,7 +182,7 @@ private extension GestureButton {
         isInside: Bool
     ) {
         let shouldTrigger = state.isPressed
-        reset()
+        state.reset()
         guard shouldTrigger else { return }
         state.releaseDate = tryTriggerDoubleTap() ? .distantPast : Date()
         dragEndAction?(value, geometry)
@@ -222,12 +209,11 @@ private extension GestureButton {
         guard let delay = config.cancelDelay else { return }
         let startLocation = state.lastDragGestureLocation
         let state = state
-        let updatesLabel = updatesLabelWithPressedState
         let endAction = endAction
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             if state.isRemoved { return }
             guard state.lastDragGestureLocation == startLocation else { return }
-            state.reset(updatesLabelWithPressedState: updatesLabel)
+            state.reset()
             endAction?(state.buttonGeometry)
         }
     }
